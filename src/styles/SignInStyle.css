@@ -69,9 +69,10 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  outline: none;
 }
 
-.signin-form button {
+.sign-in-button {
   width: 100%;
   padding: 0.75rem;
   background-color: #0d3bc3;
@@ -82,7 +83,7 @@ select {
   margin-top: 1rem;
 }
 
-button:hover {
+.sign-in-button:hover {
   background-color: #0f41d6;
 }
 
@@ -99,4 +100,29 @@ button:hover {
 
 .signin-no-account a:hover {
   text-decoration: underline;
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 2.5rem; /* місце для іконки */
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 55%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.toggle-password img {
+  width: 1.2rem;
 }
