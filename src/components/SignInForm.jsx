@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import '../styles/SignInStyle.css';
 
 export default function SignInForm() {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  
   return (
     <form className="signin-form">
       <h2>{t('welcome')}</h2>
@@ -42,7 +44,7 @@ export default function SignInForm() {
       </button>
 
       <div className="signin-no-account">
-        {t('no-account')} <a href="#">{t('sign-up')}</a>
+        {t('no-account')} <Link to="/signup">{t('no-account-sign-up')}</Link>
       </div>
     </form>
   );
