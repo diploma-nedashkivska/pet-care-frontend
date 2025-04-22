@@ -1,0 +1,20 @@
+.backgroud-circle {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh; 
+  background: linear-gradient(135deg, #0d3bc3 0%, #edb624 100%);
+  clip-path: ellipse(150% 60% at 50% 100%);
+  z-index: -1; 
+  overflow: hidden;
+}
+
+.backgroud-circle::before {
+  content: "";
+  position: absolute;
+  width: 100%; 
+  height: 100%;
+  background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
