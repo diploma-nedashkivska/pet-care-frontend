@@ -6,5 +6,5 @@
   "passwordPlaceholder": "Введіть пароль",
   "sign-in-button": "Увійти",
   "no-account": "Немає акаунту?",
-  "sign-up": "Зареєструватись"
+  "no-account-sign-up": "Зареєструватись"
 }
