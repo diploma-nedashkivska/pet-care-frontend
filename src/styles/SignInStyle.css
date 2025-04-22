@@ -23,9 +23,18 @@
 .page-container {
   display: flex;
   justify-content: center;
-  padding-top: 5%;
+  padding-top: 2rem;
   position: relative;
   z-index: 1;
+}
+
+select {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 1em;
+  background-color: #fafafa;
+  border: none;
+  outline: none;
 }
 
 /* SignInForm */

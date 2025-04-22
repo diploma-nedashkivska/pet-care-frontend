@@ -1,0 +1,10 @@
+{
+  "welcome": "З поверненням!",
+  "email": "Електронна пошта",
+  "emailPlaceholder": "Введіть електронну пошту",
+  "password": "Пароль",
+  "passwordPlaceholder": "Введіть пароль",
+  "sign-in-button": "Увійти",
+  "no-account": "Немає акаунту?",
+  "sign-up": "Зареєструватись"
+}

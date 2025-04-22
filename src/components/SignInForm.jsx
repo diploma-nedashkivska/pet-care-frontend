@@ -1,25 +1,27 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import '../styles/SignInStyle.css';
 
 export default function SignInForm() {
+  const { t } = useTranslation();
   return (
     <form className="signin-form">
-      <h2>З поверненням!</h2>
+      <h2>{t('welcome')}</h2>
 
       <div className="form-group">
-        <label htmlFor="email">Електронна пошта</label>
-        <input type="email" placeholder="Введіть електронну пошту" required />
+        <label htmlFor="email">{t('email')}</label>
+        <input type="email" placeholder={t('emailPlaceholder')} required />
       </div>
 
       <div className="form-group">
-        <label htmlFor="password">Пароль</label>
-        <input type="password" placeholder="Введіть пароль" required />
+        <label htmlFor="password">{t('password')}</label>
+        <input type="password" placeholder={t('passwordPlaceholder')} required />
       </div>
 
-      <button type="submit">Увійти</button>
+      <button type="submit">{t('sign-in-button')}</button>
 
       <div className="signin-no-account">
-        Немає акаунту? <a href="#">Зареєструватись</a>
+        {t('no-account')} <a href="#">{t('sign-up')}</a>
       </div>
     </form>
   );
