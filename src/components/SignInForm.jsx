@@ -6,10 +6,10 @@ import '../styles/SignInStyle.css';
 export default function SignInForm() {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-  
+
   return (
     <form className="signin-form">
-      <h2>{t('welcome')}</h2>
+      <h2>{t('sign-in')}</h2>
 
       <div className="form-group">
         <label htmlFor="email">{t('email')}</label>

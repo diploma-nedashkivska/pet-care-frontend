@@ -10,7 +10,7 @@ export default function SignInPage() {
   const handleLanguageChange = (e) => {
     const lng = e.target.value;
     setLanguage(lng);
-    i18n.changeLanguage(lng); // <-- тут міняємо мову в i18next
+    i18n.changeLanguage(lng);
   };
 
   return (
