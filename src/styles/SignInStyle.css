@@ -20,7 +20,7 @@
   background-size: 20px 20px;
 }
 
-.page-container {
+.signin.page-container {
   display: flex;
   justify-content: center;
   padding-top: 2rem;
@@ -53,18 +53,18 @@ select {
   color: #0f0e0f;
 }
 
-.form-group {
+.signin-form .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.8rem;
 }
 
-.form-group label {
+.signin-form .form-group label {
   margin-bottom: 0.5rem;
   color: #0f0e0f;
 }
 
-.form-group input {
+.signin-form .form-group input {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -72,7 +72,7 @@ select {
   outline: none;
 }
 
-.sign-in-button {
+.signin-button {
   width: 100%;
   padding: 0.75rem;
   background-color: #0d3bc3;
@@ -83,37 +83,37 @@ select {
   margin-top: 1rem;
 }
 
-.sign-in-button:hover {
+.signin-button:hover {
   background-color: #0f41d6;
 }
 
-.signin-no-account {
+.signin-form .no-account {
   text-align: center;
   margin-top: 20px;
   font-size: 0.9rem;
 }
 
-.signin-no-account a {
+.signin-form .no-account a {
   color: #0d3bc3;
   text-decoration: none;
 }
 
-.signin-no-account a:hover {
+.signin-form .no-account a:hover {
   text-decoration: underline;
 }
 
-.password-input-wrapper {
+.signin-form .password-input-wrapper {
   position: relative;
   width: 100%;
 }
 
-.password-input-wrapper input {
+.signin-form .password-input-wrapper input {
   width: 100%;
-  padding-right: 2.5rem; /* місце для іконки */
+  padding-right: 2.5rem;
   box-sizing: border-box;
 }
 
-.toggle-password {
+.signin-form .toggle-password {
   position: absolute;
   top: 55%;
   right: 0.5rem;
@@ -123,6 +123,6 @@ select {
   padding: 0;
 }
 
-.toggle-password img {
+.signin-form .toggle-password img {
   width: 1.2rem;
 }

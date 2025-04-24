@@ -1,0 +1,19 @@
+{
+  "signin": "З поверненням!",
+  "email": "Електронна пошта",
+  "emailPlaceholder": "Введіть електронну пошту",
+  "password": "Пароль",
+  "passwordPlaceholder": "Введіть пароль",
+  "signin-button": "Увійти",
+  "no-account": "Немає акаунту?",
+  "no-account-signup": "Зареєструватись",
+
+  "signup": "Реєстрація",
+  "fullName": "Ім'я",
+  "fullNamePlaceholder": "Введіть ім'я",
+  "photo": "Фотографія",
+  "chooseFile": "Вибрати файл",
+  "noFileChosen": "Файл не обрано",
+  "signup-button": "Зареєструватись",
+  "have-account": "Маєте акаунт?"
+}

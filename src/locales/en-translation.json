@@ -1,0 +1,19 @@
+{
+  "signin": "Welcome back!",
+  "email": "Email",
+  "emailPlaceholder": "Enter your email",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "signin-button": "Sign in",
+  "no-account": "Don't have an account?",
+  "no-account-signup": "Sign up",
+
+  "signup": "Sign up",
+  "fullName": "Full name",
+  "fullNamePlaceholder": "Enter your full name",
+  "photo": "Photo",
+  "chooseFile": "Choose file",
+  "noFileChosen": "No file chosen",
+  "signup-button": "Sign up",
+  "have-account": "Have an account?"
+}

@@ -9,17 +9,18 @@ export default function SignInForm() {
 
   return (
     <form className="signin-form">
-      <h2>{t('sign-in')}</h2>
+      <h2>{t('signin')}</h2>
 
       <div className="form-group">
         <label htmlFor="email">{t('email')}</label>
-        <input type="email" placeholder={t('emailPlaceholder')} required />
+        <input id="email" type="email" placeholder={t('emailPlaceholder')} required />
       </div>
 
       <div className="form-group">
         <label htmlFor="password">{t('password')}</label>
         <div className="password-input-wrapper">
           <input
+            id="password"
             type={showPassword ? 'text' : 'password'}
             placeholder={t('passwordPlaceholder')}
             required
@@ -28,7 +29,6 @@ export default function SignInForm() {
             type="button"
             className="toggle-password"
             onClick={() => setShowPassword((v) => !v)}
-            aria-label={showPassword ? 'Сховати пароль' : 'Показати пароль'}
           >
             {showPassword ? (
               <img src="/icons/password-view.png" alt="eye" />
@@ -39,12 +39,12 @@ export default function SignInForm() {
         </div>
       </div>
 
-      <button type="submit" className="sign-in-button">
-        {t('sign-in-button')}
+      <button type="submit" className="signin-button">
+        {t('signin-button')}
       </button>
 
-      <div className="signin-no-account">
-        {t('no-account')} <Link to="/signup">{t('no-account-sign-up')}</Link>
+      <div className="no-account">
+        {t('no-account')} <Link to="/signup">{t('no-account-signup')}</Link>
       </div>
     </form>
   );
