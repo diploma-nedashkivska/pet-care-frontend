@@ -1,14 +1,41 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/SignUpStyle.css';
 
 export default function SignUpForm() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const [fullName, setFullName] = useState('');
+  const [email,    setEmail]    = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
+
+  const submit = async e => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:8000/signup/', {
+        full_name: fullName,
+        email,
+        password
+      });
+      navigate('/signin'); 
+    } catch (error) {
+      if (error.response) {
+        console.error('Status:', error.response.status);
+        console.error('Data:', error.response.data);
+        alert(JSON.stringify(error.response.data));
+      } else {
+        console.error(error.message);
+      }
+    }
+  };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -23,17 +50,17 @@ export default function SignUpForm() {
   const formClass = preview ? 'signup-form has-preview' : 'signup-form';
 
   return (
-    <form className={formClass}>
+    <form className={formClass} onSubmit={submit}>
       <h2>{t('signup')}</h2>
 
-      <div className="form-group">
+      <div className="signup form-group">
         <label htmlFor="fullName">{t('fullName')}</label>
-        <input id="fullName" type="text" placeholder={t('fullNamePlaceholder')} required />
+        <input id="fullName" type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder={t('fullNamePlaceholder')} required />
       </div>
 
       <div className="signup form-group">
         <label htmlFor="email">{t('email')}</label>
-        <input id="email" type="email" placeholder={t('emailPlaceholder')} required />
+        <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t('emailPlaceholder')} required />
       </div>
 
       <div className="signup form-group">
@@ -42,6 +69,8 @@ export default function SignUpForm() {
           <input
             id="password"
             type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             placeholder={t('passwordPlaceholder')}
             required
           />
@@ -83,7 +112,7 @@ export default function SignUpForm() {
       </button>
 
       <div className="signup-no-account">
-        {t('have-account')} <Link to="/">{t('signin-button')}</Link>
+        {t('have-account')} <Link to="/signin">{t('signin-button')}</Link>
       </div>
     </form>
   );

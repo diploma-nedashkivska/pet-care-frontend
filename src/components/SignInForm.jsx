@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/SignInStyle.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -18,7 +17,7 @@ export default function SignInForm() {
       password: password,
     };
     try {
-      const { data } = await axios.post('http://localhost:8000/token/', user);
+      const { data } = await axios.post('http://localhost:8000/signin/', user);
 
       Cookies.set('access_token', data.access);
       Cookies.set('refresh_token', data.refresh);
