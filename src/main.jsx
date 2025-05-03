@@ -7,6 +7,6 @@ import { AuthProvider } from './components/AuthContext';
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <App/>
-  </AuthProvider>
+    <App />
+  </AuthProvider>,
 );

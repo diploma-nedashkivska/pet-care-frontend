@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/SignInStyle.css';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 export default function SignInForm() {
   const { login } = useAuth();

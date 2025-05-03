@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,13 +5,14 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('access_token'));
-  const [user,  setUser]  = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (token) {
       localStorage.setItem('access_token', token);
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.get('http://localhost:8000/profile/')
+      axios
+        .get('http://localhost:8000/profile/')
         .then(({ data }) => setUser(data.payload))
         .catch(() => logout());
     }
@@ -27,9 +27,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ token, user, login, logout }}>{children}</AuthContext.Provider>
   );
 }
 
