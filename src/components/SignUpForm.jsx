@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import '../styles/SignUpStyle.css';
 
 export default function SignUpForm() {
@@ -9,7 +10,7 @@ export default function SignUpForm() {
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState('');
-  const [email,    setEmail]    = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,15 +18,19 @@ export default function SignUpForm() {
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  const submit = async e => {
+  const submit = async (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append('full_name', fullName);
+    data.append('email', email);
+    data.append('password', password);
+    if (photo) data.append('photo', photo);
+
     try {
-      await axios.post('http://localhost:8000/signup/', {
-        full_name: fullName,
-        email,
-        password
+      await axios.post('http://localhost:8000/signup/', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      navigate('/signin'); 
+      navigate('/signin');
     } catch (error) {
       if (error.response) {
         console.error('Status:', error.response.status);
@@ -55,12 +60,26 @@ export default function SignUpForm() {
 
       <div className="signup form-group">
         <label htmlFor="fullName">{t('fullName')}</label>
-        <input id="fullName" type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder={t('fullNamePlaceholder')} required />
+        <input
+          id="fullName"
+          type="text"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder={t('fullNamePlaceholder')}
+          required
+        />
       </div>
 
       <div className="signup form-group">
         <label htmlFor="email">{t('email')}</label>
-        <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t('emailPlaceholder')} required />
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={t('emailPlaceholder')}
+          required
+        />
       </div>
 
       <div className="signup form-group">
@@ -70,7 +89,7 @@ export default function SignUpForm() {
             id="password"
             type={showPassword ? 'text' : 'password'}
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder={t('passwordPlaceholder')}
             required
           />

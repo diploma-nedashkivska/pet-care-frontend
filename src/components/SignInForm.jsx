@@ -21,7 +21,7 @@ export default function SignInForm() {
 
       Cookies.set('access_token', data.access);
       Cookies.set('refresh_token', data.refresh);
-      navigate('/start');
+      navigate('/profile');
     } catch (error) {
       if (error.response) {
         console.error('Status:', error.response.status);
