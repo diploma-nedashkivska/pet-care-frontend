@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import '../styles/SignInStyle.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function SignInForm() {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,9 +20,7 @@ export default function SignInForm() {
     };
     try {
       const { data } = await axios.post('http://localhost:8000/signin/', user);
-
-      Cookies.set('access_token', data.access);
-      Cookies.set('refresh_token', data.refresh);
+      login(data.payload.accessToken);
       navigate('/profile');
     } catch (error) {
       if (error.response) {

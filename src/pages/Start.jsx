@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import '../styles/StartStyle.css';
+import { useAuth } from '../components/AuthContext';
+import '../styles/StartStyle.css'
+export default function Start() {
+  const { user, logout } = useAuth();
 
-export default function StartPage() {
+  if (!user) return <div>Loading profile…</div>;
+
   return (
     <div className="start-page">
-      <h1>wow</h1>
-      <img
-        src="https://diploma-nedashkivska.s3.eu-north-1.amazonaws.com/user_profile/b4ee3f2c4f374b9ba6437ca57bae08e2.jpg"
-        alt="pupu"
-        className="profile-photo"
-      />
+      <h1>Welcome, {user.full_name}</h1>
+      {/* Відображаємо full_name як текст */}
+      
+    
+      {/* Саме зображення */}
+      {user.photo_url && (
+        <img
+          src={user.photo_url}
+          alt="profile"
+          className="profile-photo"
+        />
+      )}
+      <button onClick={logout}>Log out</button>
     </div>
   );
 }
