@@ -1,29 +1,46 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem('access_token'));
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(() => localStorage.getItem('access_token'));
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     if (token) {
       localStorage.setItem('access_token', token);
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios
-        .get('http://localhost:8000/profile/')
-        .then(({ data }) => setUser(data.payload))
-        .catch(() => logout());
+    } else {
+      localStorage.removeItem('access_token');
+      delete axios.defaults.headers.common.Authorization;
+      setUser([]);
     }
   }, [token]);
 
-  const login = (newToken) => setToken(newToken);
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null);
-    setUser(null);
-    localStorage.removeItem('access_token');
-    delete axios.defaults.headers.common.Authorization;
+  }, []);
+
+  useEffect(() => {
+    if (!token) return;
+
+    axios
+      .get('http://localhost:8000/pets/')
+      .then(({ data }) => {
+        setUser(data.payload);
+      })
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          logout();
+        } else {
+          console.warn('Помилка при завантаженні користувачів, але сесія лишається:', err);
+        }
+      });
+  }, [token, logout]);
+
+  const login = (newToken) => {
+    setToken(newToken);
   };
 
   return (

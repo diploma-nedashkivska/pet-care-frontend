@@ -28,13 +28,14 @@
   z-index: 1;
 }
 
-select {
+.signin.languages {
   margin-left: 20px;
   margin-top: 20px;
   font-size: 1em;
   background-color: #fafafa;
   border: none;
   outline: none;
+  color: #0f0e0f;
 }
 
 /* SignInForm */

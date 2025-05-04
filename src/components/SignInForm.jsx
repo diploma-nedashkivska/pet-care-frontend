@@ -20,7 +20,7 @@ export default function SignInForm() {
     try {
       const { data } = await axios.post('http://localhost:8000/signin/', user);
       login(data.payload.accessToken);
-      navigate('/profile');
+      navigate('/pets');
     } catch (error) {
       if (error.response) {
         console.error('Status:', error.response.status);
