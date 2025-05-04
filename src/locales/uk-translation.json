@@ -15,5 +15,12 @@
   "chooseFile": "Вибрати файл",
   "noFileChosen": "Файл не обрано",
   "signup-button": "Зареєструватись",
-  "have-account": "Маєте акаунт?"
+  "have-account": "Маєте акаунт?",
+
+  "error-signin-email": "Введіть пошту",
+  "error-signin-password": "Введіть пароль",
+
+  "error-signup-fullName": "Введіть ім’я",
+  "error-signup-email": "Неправильний формат пошти",
+  "error-signup-password": "Не менше 6 символів"
 }
