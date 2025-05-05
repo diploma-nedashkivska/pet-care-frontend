@@ -17,6 +17,12 @@
   "signup-button": "Sign up",
   "have-account": "Do have an account?",
 
+  "pets-page": "Pet Profiles",
+  "calendar-page": "Calendar",
+  "journal-page": "Journal",
+  "forum-page": "Forum",
+  "partners-page": "Partner Sites",
+
   "new-password": "New password",
   "new-passwordPlaceholder": "Leave blank to keep current password",
   "save-button": "Save",

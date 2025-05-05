@@ -6,7 +6,7 @@ import '../styles/Header.css';
 import UserProfile from './UserProfile';
 
 export default function Header() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, logout, setUser } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -31,26 +31,26 @@ export default function Header() {
 
           <nav className="main-nav">
             <NavLink to="/pets" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Профілі тварин
+              {t('pets-page')}
             </NavLink>
             <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Календар
+            {t('calendar-page')}
             </NavLink>
             <NavLink to="/journal" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Журнал
+            {t('journal-page')}
             </NavLink>
             <NavLink to="/forum" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Форум
+            {t('forum-page')}
             </NavLink>
             <NavLink to="/partners" className={({ isActive }) => (isActive ? 'active' : '')}>
-              Сайти-партнери
+            {t('partners-page')}
             </NavLink>
           </nav>
 
           <div className="user-section">
-            <span className="user-name">{user.full_name}</span>
+            <span className="user-name">{user?.full_name || ''}</span>
             <img
-              src={user.photo_url || '/icons/user.png'}
+              src={user?.photo_url || '/icons/user.png'}
               alt="profile"
               className="user-icon"
               onClick={() => setModalOpen(true)}
@@ -58,9 +58,6 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <button className="logout-btn" onClick={logout}>
-        Вийти
-      </button>
       <UserProfile
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
