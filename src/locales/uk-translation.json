@@ -17,6 +17,11 @@
   "signup-button": "Зареєструватись",
   "have-account": "Маєте акаунт?",
 
+  "new-password": "Новий пароль",
+  "new-passwordPlaceholder": "Залиште порожнім, якщо не міняти",
+  "save-button": "Зберегти",
+  "signout-button": "Вийти",
+
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",
 

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
 import '../styles/Header.css';
 
 export default function UserProfile({ isOpen, onClose, onUpdate }) {
+  const { t } = useTranslation();
+
   const { logout } = useAuth();
   const [form, setForm] = useState({
     full_name: '',
@@ -15,9 +18,9 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
 
   useEffect(() => {
     if (!isOpen) return;
-    axios.get('http://localhost:8000/profile/')
+    axios
+      .get('http://localhost:8000/profile/')
       .then(({ data }) => {
-        console.log('Профіль:', data);
         const user = data.payload ?? data;
         setForm({
           full_name: user.full_name,
@@ -27,20 +30,20 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
         });
         setPreview(user.photo_url);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }, [isOpen]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'photo') {
-      setForm(f => ({ ...f, photo: files[0] }));
+      setForm((f) => ({ ...f, photo: files[0] }));
       setPreview(URL.createObjectURL(files[0]));
     } else {
-      setForm(f => ({ ...f, [name]: value }));
+      setForm((f) => ({ ...f, [name]: value }));
     }
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = new FormData();
     payload.append('full_name', form.full_name);
@@ -50,7 +53,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
 
     try {
       const { data } = await axios.put('http://localhost:8000/profile/', payload, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       onUpdate(data);
       onClose();
@@ -63,23 +66,19 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
   if (!isOpen) return null;
   return (
     <div className="user modal-overlay">
-      <div className="user modal-window" onClick={e => e.stopPropagation()}>
+      <div className="user modal-window" onClick={(e) => e.stopPropagation()}>
         <button className="user close-btn" onClick={onClose}>
           <img src="/icons/close.png" alt="Закрити" />
         </button>
         <h2>Редагувати профіль</h2>
         <div className="user modal-content">
           <div className="user avatar-column">
-            <img
-              src={preview || '/icons/user.png'}
-              alt="avatar"
-              className="user avatar-image"
-            />
+            <img src={preview || '/icons/user.png'} alt="avatar" className="user avatar-image" />
           </div>
           <div className="user form-column">
             <form onSubmit={handleSubmit}>
               <label>
-                Ім’я
+                {t('fullName')}
                 <input
                   type="text"
                   name="full_name"
@@ -89,7 +88,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                 />
               </label>
               <label>
-                Email
+                {t('email')}
                 <input
                   type="email"
                   name="email"
@@ -99,13 +98,13 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                 />
               </label>
               <label>
-                Новий пароль
+                {t('new-password')}
                 <input
                   type="password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  placeholder="Залиште порожнім, якщо не міняти"
+                  placeholder={t('new-passwordPlaceholder')}
                 />
               </label>
               {/* <label>
@@ -119,7 +118,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
               </label> */}
               <div className="user buttons">
                 {/* <button type="button" onClick={onClose}>Закрити</button> */}
-                <button type="submit">Зберегти</button>
+                <button type="submit">{t('save-button')}</button>
               </div>
             </form>
             <button
@@ -130,7 +129,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                 logout();
               }}
             >
-              Вийти з акаунту
+              {t('signout-button')}
             </button>
           </div>
         </div>

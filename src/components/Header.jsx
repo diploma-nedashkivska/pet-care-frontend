@@ -16,7 +16,7 @@ export default function Header() {
     i18n.changeLanguage(e.target.value);
   };
 
-  const handleUpdate = updatedUser => {
+  const handleUpdate = (updatedUser) => {
     setUser(updatedUser);
   };
 
