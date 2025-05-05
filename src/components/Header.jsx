@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/Header.css';
+import UserProfile from './UserProfile';
 
 export default function Header() {
   const { i18n } = useTranslation();
-  const { user, logout } = useAuth();
+  const { user, logout, setUser } = useAuth();
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
+  };
+
+  const handleUpdate = updatedUser => {
+    setUser(updatedUser);
   };
 
   return (
@@ -46,7 +53,7 @@ export default function Header() {
               src={user.photo_url || '/icons/user.png'}
               alt="profile"
               className="user-icon"
-              onClick={() => navigate('/profile')}
+              onClick={() => setModalOpen(true)}
             />
           </div>
         </div>
@@ -54,6 +61,11 @@ export default function Header() {
       <button className="logout-btn" onClick={logout}>
         Вийти
       </button>
+      <UserProfile
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onUpdate={handleUpdate}
+      />
     </>
   );
 }
