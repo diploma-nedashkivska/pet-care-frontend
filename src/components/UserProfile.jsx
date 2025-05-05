@@ -2,19 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
 import axios from 'axios';
+import { z } from 'zod';
 import '../styles/Header.css';
+
+const ProfileSchema = (t) =>
+  z.object({
+    fullName: z.string().min(1, t('error-signup-fullName')),
+    email: z.string().email(t('error-signup-email')),
+    password: z.string().min(6, t('error-signup-password')).optional().or(z.literal('')),
+  });
 
 export default function UserProfile({ isOpen, onClose, onUpdate }) {
   const { t } = useTranslation();
-
   const { logout } = useAuth();
+
   const [form, setForm] = useState({
-    full_name: '',
+    fullName: '',
     email: '',
     password: '',
     photo: null,
   });
   const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!isOpen) return;
@@ -23,15 +32,20 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
       .then(({ data }) => {
         const user = data.payload ?? data;
         setForm({
-          full_name: user.full_name,
+          fullName: user.full_name,
           email: user.email,
           password: '',
           photo: null,
         });
         setPreview(user.photo_url);
+        setErrors({});
       })
       .catch((err) => console.error(err));
   }, [isOpen]);
+
+  const clearError = (field) => {
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -45,21 +59,31 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const schema = ProfileSchema(t);
+    const result = schema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach((issue) => {
+        fieldErrors[issue.path[0]] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
+
     const payload = new FormData();
-    payload.append('full_name', form.full_name);
+    payload.append('full_name', form.fullName);
     payload.append('email', form.email);
     if (form.password) payload.append('password', form.password);
     if (form.photo) payload.append('photo', form.photo);
 
     try {
-      const { data } = await axios.put('http://localhost:8000/profile/', payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const { data } = await axios.patch('http://localhost:8000/profile/', payload);
       onUpdate(data);
       onClose();
     } catch (error) {
-      console.error(error.response.data);
-      alert('Не вдалося зберегти зміни');
+      console.error(error.response ? error.response.data : error.message);
     }
   };
 
@@ -76,15 +100,17 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
             <img src={preview || '/icons/user.png'} alt="avatar" className="user avatar-image" />
           </div>
           <div className="user form-column">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <label>
                 {t('fullName')}
                 <input
                   type="text"
-                  name="full_name"
-                  value={form.full_name}
+                  name="fullName"
+                  value={form.fullName}
                   onChange={handleChange}
-                  required
+                  onFocus={() => clearError('fullName')}
+                  placeholder={errors.fullName || ''}
+                  className={errors.fullName ? 'input-error' : ''}
                 />
               </label>
               <label>
@@ -94,7 +120,9 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  required
+                  onFocus={() => clearError('email')}
+                  placeholder={errors.email || ''}
+                  className={errors.email ? 'input-error' : ''}
                 />
               </label>
               <label>
@@ -104,7 +132,9 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  placeholder={t('new-passwordPlaceholder')}
+                  onFocus={() => clearError('password')}
+                  placeholder={errors.password || t('new-passwordPlaceholder')}
+                  className={errors.password ? 'input-error' : ''}
                 />
               </label>
               {/* <label>
