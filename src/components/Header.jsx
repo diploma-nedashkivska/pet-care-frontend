@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/Header.css';
 import UserProfile from './UserProfile';
 
 export default function Header() {
   const { t, i18n } = useTranslation();
-  const { user, logout, setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -20,6 +18,8 @@ export default function Header() {
     setUser(updatedUser);
   };
 
+  if (!user) return null;
+  
   return (
     <>
       <header className="app-header">
@@ -46,16 +46,17 @@ export default function Header() {
               {t('partners-page')}
             </NavLink>
           </nav>
-
-          <div className="user-section">
-            <span className="user-name">{user?.full_name || ''}</span>
-            <img
-              src={user?.photo_url || '/icons/user.png'}
-              alt="profile"
-              className="user-icon"
-              onClick={() => setModalOpen(true)}
-            />
-          </div>
+          {user && (
+            <div className="user-section">
+              <span className="user-name">{user?.full_name || ''}</span>
+              <img
+                src={user?.photo_url || '/icons/user.png'}
+                alt="profile"
+                className="user-icon"
+                onClick={() => setModalOpen(true)}
+              />
+            </div>
+          )}
         </div>
       </header>
       <UserProfile

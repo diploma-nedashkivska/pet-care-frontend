@@ -14,9 +14,13 @@ export function AuthProvider({ children }) {
     } else {
       localStorage.removeItem('access_token');
       delete axios.defaults.headers.common.Authorization;
-      setUser([]);
+      setUser({});
     }
   }, [token]);
+
+  const login = useCallback((accessToken) => {
+    setToken(accessToken);
+  }, []);
 
   const logout = useCallback(() => {
     setToken(null);
@@ -26,9 +30,9 @@ export function AuthProvider({ children }) {
     if (!token) return;
 
     axios
-      .get('http://localhost:8000/pets/')
+      .get('http://localhost:8000/profile/')
       .then(({ data }) => {
-        setUser(data.payload);
+        setUser(data.payload ?? data);
       })
       .catch((err) => {
         if (err.response?.status === 401) {
@@ -39,9 +43,6 @@ export function AuthProvider({ children }) {
       });
   }, [token, logout]);
 
-  const login = (newToken) => {
-    setToken(newToken);
-  };
 
   return (
     <AuthContext.Provider value={{ token, user, setUser, login, logout }}>
