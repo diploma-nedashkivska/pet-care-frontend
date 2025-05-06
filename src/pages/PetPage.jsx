@@ -81,7 +81,7 @@ export default function PetPage() {
             <span>{t('pets-page')}</span>
           </div>
           <button onClick={handleAdd} className="btn-add">
-          {t('add-button')}
+            {t('add-button')}
           </button>
         </div>
         <hr />
@@ -93,8 +93,12 @@ export default function PetPage() {
               <p className="pet-name-breed">
                 <i>{p.breed}</i>
               </p>
-              <p>{t('gender')}: {p.sex === 'MALE' ? t('male') : t('female')}</p>
-              <p>{t('birthday')}: {p.birthday}</p>
+              <p>
+                {t('gender')}: {p.sex === 'MALE' ? t('male') : t('female')}
+              </p>
+              <p>
+                {t('birthday')}: {p.birthday}
+              </p>
               <div className="pet-card-actions">
                 <button onClick={() => handleEdit(p)}>{t('edit-button')}</button>
                 <button onClick={() => handleDeleteRequest(p.id)}>{t('delete-button')}</button>

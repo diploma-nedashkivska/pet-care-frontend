@@ -259,3 +259,12 @@
   width: 20px;
   height: 20px;
 }
+
+.input-error {
+  border: 1px solid #e63946;
+  box-shadow: inset 0 0 0 1px #e63946;
+}
+
+.input-error::placeholder {
+  color: #e63946;
+}

@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PetStyle.css';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+
+const PetSchema = (t) =>
+  z.object({
+    pet_name: z.string().min(1, t('fullNamePlaceholder')),
+    breed: z.string().min(1, t('breedPlaceholder')),
+    birthday: z.string().min(1, ''),
+  });
 
 export default function PetModal({ isOpen, onClose, onSave, initialData }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     pet_name: '',
     breed: '',
@@ -10,9 +19,9 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
     birthday: '',
   });
 
+  const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
   const [photo, setPhoto] = useState(null);
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (initialData) {
@@ -23,6 +32,7 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         birthday: initialData.birthday || '',
       });
       setPhoto(null);
+      setErrors({});
     } else {
       setForm({
         pet_name: '',
@@ -30,8 +40,14 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         sex: 'FEMALE',
         birthday: '',
       });
+      setPhoto(null);
+      setErrors({});
     }
   }, [initialData, isOpen]);
+
+  const clearError = (field) => {
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -48,6 +64,19 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const schema = PetSchema(t);
+    const result = schema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach((issue) => {
+        fieldErrors[issue.path[0]] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
+
     const data = new FormData();
     data.append('pet_name', form.pet_name);
     data.append('breed', form.breed);
@@ -68,14 +97,28 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
           <img src="/icons/close.png" alt="Закрити" />
         </button>
         <h2>{initialData ? t('edit-pet') : t('add-pet')}</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="pet-form">
             <label>{t('fullName')}</label>
-            <input name="pet_name" value={form.pet_name} onChange={handleChange} required />
+            <input
+              name="pet_name"
+              value={form.pet_name}
+              onChange={handleChange}
+              onFocus={() => clearError('pet_name')}
+              placeholder={errors.pet_name || t('fullNamePlaceholder')}
+              className={errors.pet_name ? 'input-error' : ''}
+            />
           </div>
           <div className="pet-form">
             <label>{t('breed')}</label>
-            <input name="breed" value={form.breed} onChange={handleChange} required />
+            <input
+              name="breed"
+              value={form.breed}
+              onChange={handleChange}
+              onFocus={() => clearError('breed')}
+              placeholder={errors.breed || t('breedPlaceholder')}
+              className={errors.breed ? 'input-error' : ''}
+            />
           </div>
           <div className="pet-form">
             <label>{t('gender')}</label>
@@ -91,7 +134,9 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
               name="birthday"
               value={form.birthday}
               onChange={handleChange}
-              required
+              onFocus={() => clearError('birthday')}
+              placeholder={errors.birthday || ''}
+              className={errors.birthday ? 'input-error' : ''}
             />
           </div>
           <div className="pet-form">
