@@ -155,7 +155,7 @@
 .pet-form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;    
+  margin-bottom: 1rem;
 }
 
 .pet-form label {
@@ -201,7 +201,7 @@
   border-radius: 4px;
   padding: 0.3rem 0.9rem;
   font-size: 0.9rem;
-  flex: 0 0 auto;        
+  flex: 0 0 auto;
   white-space: nowrap;
 }
 

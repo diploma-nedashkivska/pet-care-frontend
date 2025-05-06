@@ -4,12 +4,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PetModal from '../components/PetModal';
 import { useAuth } from '../components/AuthContext';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function PetPage() {
   const { token } = useAuth();
   const [pets, setPets] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPet, setEditingPet] = useState(null);
+  const [confirm, setConfirm] = useState({ isOpen: false, petId: null });
 
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -53,6 +55,25 @@ export default function PetPage() {
         alert('Помилка збереження');
       });
   }
+
+  function handleDeleteRequest(id) {
+    setConfirm({ isOpen: true, petId: id });
+  }
+
+  function handleConfirmDelete() {
+    axios
+      .delete(`http://localhost:8000/pets/${confirm.petId}/`)
+      .then(() => {
+        setConfirm({ isOpen: false, petId: null });
+        fetchPets();
+      })
+      .catch(console.error);
+  }
+
+  function handleCancelDelete() {
+    setConfirm({ isOpen: false, petId: null });
+  }
+
   return (
     <>
       <Header />
@@ -79,11 +100,18 @@ export default function PetPage() {
               <p>Дата народження: {p.birthday}</p>
               <div className="pet-card-actions">
                 <button onClick={() => handleEdit(p)}>Редагувати</button>
-                <button onClick={() => handleDelete(p.id)}>Видалити</button>
+                <button onClick={() => handleDeleteRequest(p.id)}>Видалити</button>
               </div>
             </div>
           ))}
         </div>
+
+        <ConfirmModal
+          isOpen={confirm.isOpen}
+          message="Дійсно хочете видалити профіль тварини?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
 
         <PetModal
           isOpen={modalOpen}

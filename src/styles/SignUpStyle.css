@@ -163,7 +163,7 @@
   padding: 0.3rem 0.9rem;
   font-size: 0.9rem;
   cursor: pointer;
-  flex: 0 0 auto;        
+  flex: 0 0 auto;
   white-space: nowrap;
 }
 .signup.form-group .custom-file-input span {

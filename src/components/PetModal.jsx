@@ -67,22 +67,22 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         </button>
         <h2>{initialData ? 'Редагувати тварину' : 'Додати тварину'}</h2>
         <form onSubmit={handleSubmit}>
-          <div className='pet-form'>
+          <div className="pet-form">
             <label>Ім’я:</label>
             <input name="pet_name" value={form.pet_name} onChange={handleChange} required />
           </div>
-          <div className='pet-form'>
+          <div className="pet-form">
             <label>Порода:</label>
             <input name="breed" value={form.breed} onChange={handleChange} required />
           </div>
-          <div className='pet-form'>
+          <div className="pet-form">
             <label>Стать: </label>
             <select name="sex" value={form.sex} onChange={handleChange}>
               <option value="MALE">Чоловіча</option>
               <option value="FEMALE">Жіноча</option>
             </select>
           </div>
-          <div className='pet-form'>
+          <div className="pet-form">
             <label>День народження:</label>
             <input
               type="date"
@@ -92,7 +92,7 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
               required
             />
           </div>
-          <div className='pet-form'>
+          <div className="pet-form">
             <label>Фотографія </label>
             <div className="custom-file-input">
               <input
