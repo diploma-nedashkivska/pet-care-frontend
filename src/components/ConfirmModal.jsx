@@ -1,7 +1,10 @@
 import React from 'react';
 import '../styles/ConfirmModal.css';
+import { useTranslation } from 'react-i18next';
 
-export default function ConfirmModal({ isOpen, message = 'Ви впевнені?', onConfirm, onCancel }) {
+export default function ConfirmModal({ isOpen, message, onConfirm, onCancel }) {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
   return (
     <div className="cm confirm-overlay">
@@ -9,10 +12,10 @@ export default function ConfirmModal({ isOpen, message = 'Ви впевнені?
         <p className="cm confirm-message">{message}</p>
         <div className="cm confirm-buttons">
           <button className="cm btn btn-cancel" onClick={onCancel}>
-            Скасувати
+            {t('cancel-button')}
           </button>
           <button className="cm btn btn-confirm" onClick={onConfirm}>
-            Видалити
+            {t('delete-button')}
           </button>
         </div>
       </div>

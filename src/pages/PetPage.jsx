@@ -5,6 +5,7 @@ import axios from 'axios';
 import PetModal from '../components/PetModal';
 import { useAuth } from '../components/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
+import { useTranslation } from 'react-i18next';
 
 export default function PetPage() {
   const { token } = useAuth();
@@ -12,6 +13,7 @@ export default function PetPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPet, setEditingPet] = useState(null);
   const [confirm, setConfirm] = useState({ isOpen: false, petId: null });
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -33,11 +35,6 @@ export default function PetPage() {
   function handleEdit(pet) {
     setEditingPet(pet);
     setModalOpen(true);
-  }
-
-  function handleDelete(id) {
-    if (!window.confirm('Видалити тварину?')) return;
-    axios.delete(`http://localhost:8000/pets/${id}/`).then(fetchPets).catch(console.error);
   }
 
   function handleSave(formData) {
@@ -81,10 +78,10 @@ export default function PetPage() {
         <div className="pets-header">
           <div className="title-with-icon">
             <img src="/icons/page-1-pets.png" alt="page-1-pets" className="icon-h1" />
-            <span>Профілі тварин</span>
+            <span>{t('pets-page')}</span>
           </div>
           <button onClick={handleAdd} className="btn-add">
-            Додати
+          {t('add-button')}
           </button>
         </div>
         <hr />
@@ -96,11 +93,11 @@ export default function PetPage() {
               <p className="pet-name-breed">
                 <i>{p.breed}</i>
               </p>
-              <p>Стать: {p.sex === 'MALE' ? 'Чоловіча' : 'Жіноча'}</p>
-              <p>Дата народження: {p.birthday}</p>
+              <p>{t('gender')}: {p.sex === 'MALE' ? t('male') : t('female')}</p>
+              <p>{t('birthday')}: {p.birthday}</p>
               <div className="pet-card-actions">
-                <button onClick={() => handleEdit(p)}>Редагувати</button>
-                <button onClick={() => handleDeleteRequest(p.id)}>Видалити</button>
+                <button onClick={() => handleEdit(p)}>{t('edit-button')}</button>
+                <button onClick={() => handleDeleteRequest(p.id)}>{t('delete-button')}</button>
               </div>
             </div>
           ))}
@@ -108,7 +105,7 @@ export default function PetPage() {
 
         <ConfirmModal
           isOpen={confirm.isOpen}
-          message="Дійсно хочете видалити профіль тварини?"
+          message={t('pet-confirm-question')}
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />

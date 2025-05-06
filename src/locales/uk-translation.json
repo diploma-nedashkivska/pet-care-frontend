@@ -28,6 +28,19 @@
   "save-button": "Зберегти",
   "signout-button": "Вийти",
 
+  "edit-pet": "Редагування тварини",
+  "add-pet": "Додавання тварини",
+  "breed": "Порода",
+  "gender": "Стать",
+  "birthday": "День народження",
+  "female": "Жіноча",
+  "male": "Чоловіча",
+  "add-button": "Додати",
+  "edit-button": "Редагувати",
+  "delete-button": "Видалити",
+  "cancel-button": "Скасувати",
+  "pet-confirm-question": "Дійсно хочете видалити профіль тварини?",
+
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PetStyle.css';
+import { useTranslation } from 'react-i18next';
 
 export default function PetModal({ isOpen, onClose, onSave, initialData }) {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
 
   const fileInputRef = useRef(null);
   const [photo, setPhoto] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (initialData) {
@@ -65,25 +67,25 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         <button className="pet close-btn" onClick={onClose}>
           <img src="/icons/close.png" alt="Закрити" />
         </button>
-        <h2>{initialData ? 'Редагувати тварину' : 'Додати тварину'}</h2>
+        <h2>{initialData ? t('edit-pet') : t('add-pet')}</h2>
         <form onSubmit={handleSubmit}>
           <div className="pet-form">
-            <label>Ім’я:</label>
+            <label>{t('fullName')}</label>
             <input name="pet_name" value={form.pet_name} onChange={handleChange} required />
           </div>
           <div className="pet-form">
-            <label>Порода:</label>
+            <label>{t('breed')}</label>
             <input name="breed" value={form.breed} onChange={handleChange} required />
           </div>
           <div className="pet-form">
-            <label>Стать: </label>
+            <label>{t('gender')}</label>
             <select name="sex" value={form.sex} onChange={handleChange}>
-              <option value="MALE">Чоловіча</option>
-              <option value="FEMALE">Жіноча</option>
+              <option value="MALE">{t('male')}</option>
+              <option value="FEMALE">{t('female')}</option>
             </select>
           </div>
           <div className="pet-form">
-            <label>День народження:</label>
+            <label>{t('birthday')}</label>
             <input
               type="date"
               name="birthday"
@@ -93,7 +95,7 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
             />
           </div>
           <div className="pet-form">
-            <label>Фотографія </label>
+            <label>{t('photo')}</label>
             <div className="custom-file-input">
               <input
                 type="file"
@@ -104,14 +106,14 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
               />
 
               <button type="button" onClick={handleChooseClick}>
-                Обрати файл
+                {t('chooseFile')}
               </button>
-              <span>{photo ? photo.name : 'Файл не обрано'}</span>
+              <span>{photo ? photo.name : t('noFileChosen')}</span>
             </div>
           </div>
 
           <div className="pet modal-buttons">
-            <button type="submit">Зберегти</button>
+            <button type="submit">{t('save-button')}</button>
           </div>
         </form>
       </div>
