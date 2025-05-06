@@ -2,8 +2,15 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { z } from 'zod';
 import '../styles/SignUpStyle.css';
+
+const SignUpSchema = (t) =>
+  z.object({
+    fullName: z.string().min(1, t('error-signup-fullName')),
+    email: z.string().email(t('error-signup-email')),
+    password: z.string().min(6, t('error-signup-password')),
+  });
 
 export default function SignUpForm() {
   const { t } = useTranslation();
@@ -16,10 +23,24 @@ export default function SignUpForm() {
 
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
 
   const submit = async (e) => {
     e.preventDefault();
+    const schema = SignUpSchema(t);
+    const result = schema.safeParse({ fullName, email, password });
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach((issue) => {
+        const key = issue.path[0];
+        fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
+
     const data = new FormData();
     data.append('full_name', fullName);
     data.append('email', email);
@@ -33,11 +54,9 @@ export default function SignUpForm() {
       navigate('/signin');
     } catch (error) {
       if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Data:', error.response.data);
         alert(JSON.stringify(error.response.data));
       } else {
-        console.error(error.message);
+        console.error(error);
       }
     }
   };
@@ -51,11 +70,12 @@ export default function SignUpForm() {
   };
 
   const handleChooseClick = () => fileInputRef.current?.click();
+  const clearError = (field) => setErrors((prev) => ({ ...prev, [field]: undefined }));
 
   const formClass = preview ? 'signup-form has-preview' : 'signup-form';
 
   return (
-    <form className={formClass} onSubmit={submit}>
+    <form className={formClass} onSubmit={submit} noValidate>
       <h2>{t('signup')}</h2>
 
       <div className="signup form-group">
@@ -65,8 +85,9 @@ export default function SignUpForm() {
           type="text"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          placeholder={t('fullNamePlaceholder')}
-          required
+          onFocus={() => clearError('fullName')}
+          placeholder={errors.fullName || t('fullNamePlaceholder')}
+          className={errors.fullName ? 'input-error' : ''}
         />
       </div>
 
@@ -77,8 +98,9 @@ export default function SignUpForm() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder={t('emailPlaceholder')}
-          required
+          onFocus={() => clearError('email')}
+          placeholder={errors.email || t('emailPlaceholder')}
+          className={errors.email ? 'input-error' : ''}
         />
       </div>
 
@@ -90,8 +112,9 @@ export default function SignUpForm() {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder={t('passwordPlaceholder')}
-            required
+            onFocus={() => clearError('password')}
+            placeholder={errors.password || t('passwordPlaceholder')}
+            className={errors.password ? 'input-error' : ''}
           />
           <button
             type="button"

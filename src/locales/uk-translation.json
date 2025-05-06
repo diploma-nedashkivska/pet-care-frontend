@@ -15,5 +15,37 @@
   "chooseFile": "Вибрати файл",
   "noFileChosen": "Файл не обрано",
   "signup-button": "Зареєструватись",
-  "have-account": "Маєте акаунт?"
+  "have-account": "Маєте акаунт?",
+
+  "pets-page": "Профілі тварин",
+  "calendar-page": "Календар",
+  "journal-page": "Журнал",
+  "forum-page": "Форум",
+  "partners-page": "Сайти-партнери",
+
+  "new-password": "Новий пароль",
+  "new-passwordPlaceholder": "Залиште порожнім, якщо не міняти",
+  "save-button": "Зберегти",
+  "signout-button": "Вийти",
+
+  "edit-pet": "Редагування тварини",
+  "add-pet": "Додавання тварини",
+  "breed": "Порода",
+  "breedPlaceholder": "Введіть породу",
+  "gender": "Стать",
+  "birthday": "День народження",
+  "female": "Жіноча",
+  "male": "Чоловіча",
+  "add-button": "Додати",
+  "edit-button": "Редагувати",
+  "delete-button": "Видалити",
+  "cancel-button": "Скасувати",
+  "pet-confirm-question": "Дійсно хочете видалити профіль тварини?",
+
+  "error-signin-email": "Введіть пошту",
+  "error-signin-password": "Введіть пароль",
+
+  "error-signup-fullName": "Введіть ім’я",
+  "error-signup-email": "Неправильний формат пошти",
+  "error-signup-password": "Не менше 6 символів"
 }

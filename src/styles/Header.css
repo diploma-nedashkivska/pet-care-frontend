@@ -1,0 +1,201 @@
+.app-header {
+  background-color: #0d3bc3;
+  color: #fafafa;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.container .languages {
+  margin-left: 1rem;
+  font-size: 1em;
+  background-color: #0d3bc3;
+  border: none;
+  outline: none;
+  color: #fafafa;
+  height: 100%;
+}
+
+.main-nav a {
+  display: inline-block;
+  color: #fafafa;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 0 1rem;
+  line-height: 45px;
+  position: relative;
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.main-nav a:hover::after {
+  background: #edb624;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+}
+
+.user-name {
+  padding-right: 1rem;
+  color: #fafafa;
+}
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  align-self: center;
+}
+
+/* UserProfile */
+.user.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.user.modal-window {
+  position: relative;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+}
+
+.user.close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.user.close-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.user.modal-window h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #0f0e0f;
+}
+
+.user.modal-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.user.avatar-column {
+  flex: 0 0 220px;
+}
+
+.user.avatar-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #0f0e0f;
+}
+
+.user.form-column {
+  flex: 1;
+}
+
+.user.modal-window form label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #0f0e0f;
+}
+
+.user.modal-window form input[type='text'],
+.user.modal-window form input[type='email'],
+.user.modal-window form input[type='password'],
+.user.modal-window form input[type='file'] {
+  width: 95%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.user.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.user.buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #0d3bc3;
+  color: #fafafa;
+}
+
+.user.buttons button:hover {
+  background-color: #0f41d6;
+}
+
+.user.logout-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid #d32f2f;
+  color: #d32f2f;
+  border-radius: 4px;
+}
+
+.user.logout-button:hover {
+  background-color: #d32f2f;
+  color: #fafafa;
+}
+
+.input-error {
+  border: 1px solid #e63946;
+  box-shadow: inset 0 0 0 1px #e63946;
+}
+
+.input-error::placeholder {
+  color: #e63946;
+}

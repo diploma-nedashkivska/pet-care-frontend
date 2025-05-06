@@ -4,15 +4,35 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/SignInStyle.css';
 import axios from 'axios';
+import { z } from 'zod';
+
+const SignUpSchema = (t) =>
+  z.object({
+    email: z.string().min(1, t('error-signin-email')),
+    password: z.string().min(1, t('error-signin-password')),
+  });
 
 export default function SignInForm() {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
+    const schema = SignUpSchema(t);
+    const result = schema.safeParse({ email, password });
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach((issue) => {
+        const key = issue.path[0];
+        fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
     const user = {
       email: email,
       password: password,
@@ -20,7 +40,7 @@ export default function SignInForm() {
     try {
       const { data } = await axios.post('http://localhost:8000/signin/', user);
       login(data.payload.accessToken);
-      navigate('/profile');
+      navigate('/pets');
     } catch (error) {
       if (error.response) {
         console.error('Status:', error.response.status);
@@ -33,9 +53,10 @@ export default function SignInForm() {
 
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const clearError = (field) => setErrors((prev) => ({ ...prev, [field]: undefined }));
 
   return (
-    <form className="signin-form" onSubmit={submit}>
+    <form className="signin-form" onSubmit={submit} noValidate>
       <h2>{t('signin')}</h2>
 
       <div className="form-group">
@@ -44,8 +65,9 @@ export default function SignInForm() {
           id="email"
           type="email"
           value={email}
-          placeholder={t('emailPlaceholder')}
-          required
+          onFocus={() => clearError('email')}
+          placeholder={errors.email || t('emailPlaceholder')}
+          className={errors.email ? 'input-error' : ''}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
@@ -57,8 +79,9 @@ export default function SignInForm() {
             id="password"
             type={showPassword ? 'text' : 'password'}
             value={password}
-            placeholder={t('passwordPlaceholder')}
-            required
+            onFocus={() => clearError('password')}
+            placeholder={errors.password || t('passwordPlaceholder')}
+            className={errors.password ? 'input-error' : ''}
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
