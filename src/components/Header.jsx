@@ -34,16 +34,16 @@ export default function Header() {
               {t('pets-page')}
             </NavLink>
             <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
-            {t('calendar-page')}
+              {t('calendar-page')}
             </NavLink>
             <NavLink to="/journal" className={({ isActive }) => (isActive ? 'active' : '')}>
-            {t('journal-page')}
+              {t('journal-page')}
             </NavLink>
             <NavLink to="/forum" className={({ isActive }) => (isActive ? 'active' : '')}>
-            {t('forum-page')}
+              {t('forum-page')}
             </NavLink>
             <NavLink to="/partners" className={({ isActive }) => (isActive ? 'active' : '')}>
-            {t('partners-page')}
+              {t('partners-page')}
             </NavLink>
           </nav>
 
