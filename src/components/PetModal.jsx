@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PetStyle.css';
 
-export default function PetModal({
-  isOpen, 
-  onClose,
-  onSave, 
-  initialData, 
-}) {
+export default function PetModal({ isOpen, onClose, onSave, initialData }) {
   const [form, setForm] = useState({
     pet_name: '',
     breed: '',
     sex: 'FEMALE',
     birthday: '',
-    photo_url: '',
   });
+
+  const fileInputRef = useRef(null);
+  const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
     if (initialData) {
@@ -22,26 +19,30 @@ export default function PetModal({
         breed: initialData.breed || '',
         sex: initialData.sex || 'FEMALE',
         birthday: initialData.birthday || '',
-        photo_url: initialData.photo_url || '',
       });
+      setPhoto(null);
     } else {
-      // чиста форма
       setForm({
         pet_name: '',
         breed: '',
         sex: 'FEMALE',
         birthday: '',
-        photo_url: '',
       });
     }
   }, [initialData, isOpen]);
-
-  if (!isOpen) return null;
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPhoto(file);
+  };
+
+  const handleChooseClick = () => fileInputRef.current?.click();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -50,32 +51,39 @@ export default function PetModal({
     data.append('breed', form.breed);
     data.append('sex', form.sex);
     data.append('birthday', form.birthday);
-    data.append('photo_url', form.photo_url);
-    onSave(form);
+    if (photo) {
+      data.append('photo', photo);
+    }
+    onSave(data);
   }
+
+  if (!isOpen) return null;
 
   return (
     <div className="pet modal-overlay">
       <div className="pet modal-window">
+        <button className="pet close-btn" onClick={onClose}>
+          <img src="/icons/close.png" alt="Закрити" />
+        </button>
         <h2>{initialData ? 'Редагувати тварину' : 'Додати тварину'}</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            Ім’я:
+          <div className='pet-form'>
+            <label>Ім’я:</label>
             <input name="pet_name" value={form.pet_name} onChange={handleChange} required />
-          </label>
-          <label>
-            Порода:
+          </div>
+          <div className='pet-form'>
+            <label>Порода:</label>
             <input name="breed" value={form.breed} onChange={handleChange} required />
-          </label>
-          <label>
-            Стать:
+          </div>
+          <div className='pet-form'>
+            <label>Стать: </label>
             <select name="sex" value={form.sex} onChange={handleChange}>
               <option value="MALE">Чоловіча</option>
               <option value="FEMALE">Жіноча</option>
             </select>
-          </label>
-          <label>
-            День народження:
+          </div>
+          <div className='pet-form'>
+            <label>День народження:</label>
             <input
               type="date"
               name="birthday"
@@ -83,15 +91,26 @@ export default function PetModal({
               onChange={handleChange}
               required
             />
-          </label>
-          <label>
-            Фото (URL):
-            <input name="photo_url" value={form.photo_url} onChange={handleChange} />
-          </label>
+          </div>
+          <div className='pet-form'>
+            <label>Фотографія </label>
+            <div className="custom-file-input">
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handlePhotoChange}
+                style={{ display: 'none' }}
+              />
+
+              <button type="button" onClick={handleChooseClick}>
+                Обрати файл
+              </button>
+              <span>{photo ? photo.name : 'Файл не обрано'}</span>
+            </div>
+          </div>
+
           <div className="pet modal-buttons">
-            <button type="button" onClick={onClose}>
-              Скасувати
-            </button>
             <button type="submit">Зберегти</button>
           </div>
         </form>

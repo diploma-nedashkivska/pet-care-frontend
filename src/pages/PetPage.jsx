@@ -57,18 +57,22 @@ export default function PetPage() {
     <>
       <Header />
       <div className="pets page-container">
-        <img src="/icons/page-1-pets.png" alt="page-1-pets" className='icon-h1'/>
-        <span>Профілі тварин</span>
-        <button onClick={handleAdd} className="btn-add">
-          Додати
-        </button>
+        <div className="pets-header">
+          <div className="title-with-icon">
+            <img src="/icons/page-1-pets.png" alt="page-1-pets" className="icon-h1" />
+            <span>Профілі тварин</span>
+          </div>
+          <button onClick={handleAdd} className="btn-add">
+            Додати
+          </button>
+        </div>
         <hr />
         <div className="pet-grid">
           {pets.map((p) => (
             <div key={p.id} className="pet-card">
               <img src={p.photo_url || '/icons/pet-default.png'} alt={p.pet_name} />
-              <h3 className='pet-name-breed'>{p.pet_name}</h3>
-              <p className='pet-name-breed'>
+              <h3 className="pet-name-breed">{p.pet_name}</h3>
+              <p className="pet-name-breed">
                 <i>{p.breed}</i>
               </p>
               <p>Стать: {p.sex === 'MALE' ? 'Чоловіча' : 'Жіноча'}</p>
@@ -80,7 +84,6 @@ export default function PetPage() {
             </div>
           ))}
         </div>
-
 
         <PetModal
           isOpen={modalOpen}

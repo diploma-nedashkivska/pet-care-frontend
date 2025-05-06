@@ -19,7 +19,7 @@ export default function Header() {
   };
 
   if (!user) return null;
-  
+
   return (
     <>
       <header className="app-header">
