@@ -25,6 +25,7 @@
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 .calendar-table th,
 .calendar-table td {
@@ -32,10 +33,14 @@
   width: 14.28%;
   vertical-align: top;
   padding: 8px;
+  overflow: hidden;
 }
 .calendar-table th {
   background: #0056b3;
   color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .other-month {
   background: #f9f9f9;
@@ -56,6 +61,11 @@
 }
 .event-item span {
   flex-grow: 1;
+  display: inline-block; /* щоб text-overflow спрацював */
+  max-width: calc(100% - 24px); /* віднімаємо місце під checkbox */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .modal-overlay {
   position: fixed;
@@ -138,7 +148,7 @@
   margin-right: 0.5rem;
 }
 .events-list .event-item .event-link {
-  color: #0044cc;           /* колір підсвітки */
+  color: #0044cc; /* колір підсвітки */
   text-decoration: none;
 }
 .events-list .event-item .event-link:hover {

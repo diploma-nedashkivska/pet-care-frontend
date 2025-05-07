@@ -1,16 +1,27 @@
-// src/components/CalendarModal.jsx
 import React, { useState, useEffect } from 'react';
 import '../styles/CalendarStyle.css';
 
+function formatDateLocal(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 export default function CalendarModal({
-  isOpen, onClose, onSave, onDelete,
-  eventData, date, pets
+  isOpen,
+  onClose,
+  onSave,
+  onDelete,
+  eventData,
+  date,
+  pets,
 }) {
   const [form, setForm] = useState({
     id: null,
-    pet: pets.length ? pets[0].id : null,      // за замовчуванням перша тварина
+    pet: '',
     event_title: '',
-    start_date: date.toISOString().slice(0, 10),
+    start_date: formatDateLocal(date),
     start_time: '',
     description: '',
     completed: false,
@@ -28,11 +39,11 @@ export default function CalendarModal({
         completed: !!eventData.completed,
       });
     } else {
-      setForm(f => ({
+      setForm((f) => ({
         ...f,
         id: null,
-        pet: pets.length ? pets[0].id : null,
-        start_date: date.toISOString().slice(0, 10),
+        pet: '',
+        start_date: formatDateLocal(date),
         event_title: '',
         start_time: '',
         description: '',
@@ -43,15 +54,15 @@ export default function CalendarModal({
 
   if (!isOpen) return null;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm(f => ({
+    setForm((f) => ({
       ...f,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSave(form);
   };
@@ -59,18 +70,17 @@ export default function CalendarModal({
   return (
     <div className="modal-overlay">
       <div className="modal-window">
-        <button className="close-btn" onClick={onClose}>×</button>
+        <button className="close-btn" onClick={onClose}>
+          ×
+        </button>
         <h2>{form.id ? 'Редагувати подію' : 'Додати подію'}</h2>
         <form onSubmit={handleSubmit} noValidate>
-          {/* Вибір тварини */}
           <label>Тварина</label>
-          <select
-            name="pet"
-            value={form.pet || ''}
-            onChange={handleChange}
-            required
-          >
-            {pets.map(p => (
+          <select name="pet" value={form.pet} onChange={handleChange} required>
+            <option value="" disabled>
+              Оберіть тварину
+            </option>
+            {pets.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.pet_name}
               </option>
@@ -78,12 +88,7 @@ export default function CalendarModal({
           </select>
 
           <label>Заголовок</label>
-          <input
-            name="event_title"
-            value={form.event_title}
-            onChange={handleChange}
-            required
-          />
+          <input name="event_title" value={form.event_title} onChange={handleChange} required />
 
           <label>Дата</label>
           <input
@@ -95,19 +100,10 @@ export default function CalendarModal({
           />
 
           <label>Час</label>
-          <input
-            type="time"
-            name="start_time"
-            value={form.start_time}
-            onChange={handleChange}
-          />
+          <input type="time" name="start_time" value={form.start_time} onChange={handleChange} />
 
           <label>Опис</label>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-          />
+          <textarea name="description" value={form.description} onChange={handleChange} />
 
           <label>
             <input
@@ -115,7 +111,8 @@ export default function CalendarModal({
               name="completed"
               checked={form.completed}
               onChange={handleChange}
-            /> Виконано
+            />{' '}
+            Виконано
           </label>
 
           <div className="modal-buttons">

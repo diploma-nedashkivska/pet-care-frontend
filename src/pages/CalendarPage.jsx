@@ -1,4 +1,3 @@
-// src/pages/CalendarPage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
@@ -9,10 +8,30 @@ import Header from '../components/Header';
 import EventsListModal from '../components/EventsListModal';
 
 const MONTHS_UA = [
-  'Січень','Лютий','Березень','Квітень',
-  'Травень','Червень','Липень','Серпень',
-  'Вересень','Жовтень','Листопад','Грудень'
+  'Січень',
+  'Лютий',
+  'Березень',
+  'Квітень',
+  'Травень',
+  'Червень',
+  'Липень',
+  'Серпень',
+  'Вересень',
+  'Жовтень',
+  'Листопад',
+  'Грудень',
 ];
+
+function formatDateLocal(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function formatTimeHM(time) {
+  return time ? time.slice(0, 5) : '';
+}
 
 function buildCalendar(year, month) {
   const firstDay = new Date(year, month, 1).getDay();
@@ -44,29 +63,33 @@ export default function CalendarPage() {
   const [listEvents, setListEvents] = useState([]);
   const [listDate, setListDate] = useState(null);
 
-  const handleToggle = evt => {
-    axios.patch(
-      `http://localhost:8000/calendar/${evt.id}/`,
-      { completed: !evt.completed }
-    )
-      .then(res => {
-        // оновлюємо глобальні події
-        setEvents(ev =>
-          ev.map(e => e.id === evt.id ? { ...e, completed: res.data.completed } : e)
+  const handleToggle = (evt) => {
+    axios
+      .patch(
+        `http://localhost:8000/calendar/${evt.id}/`,
+        { completed: !evt.completed },
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then(() => {
+        setEvents((ev) =>
+          ev.map((e) => (e.id === evt.id ? { ...e, completed: !evt.completed } : e)),
         );
-        // оновлюємо список, якщо він відкритий
-        setListEvents(le =>
-          le.map(e => e.id === evt.id ? { ...e, completed: res.data.completed } : e)
+        setListEvents((le) =>
+          le.map((e) => (e.id === evt.id ? { ...e, completed: !evt.completed } : e)),
         );
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error('Toggle error:', err.response?.status, err.response?.data);
+
+      });
   };
 
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.get('http://localhost:8000/pets/')
-        .then(res => setPets(res.data.payload || []))
+      axios
+        .get('http://localhost:8000/pets/')
+        .then((res) => setPets(res.data.payload || []))
         .catch(console.error);
     }
   }, [token]);
@@ -76,73 +99,69 @@ export default function CalendarPage() {
     const month = currentDate.getMonth();
     setWeeks(buildCalendar(year, month));
 
-    axios.get('http://localhost:8000/calendar/', {
-      params: { year, month: month + 1 }
-    })
-      .then(res => setEvents(res.data.payload || []))
+    axios
+      .get('http://localhost:8000/calendar/', {
+        params: { year, month: month + 1 },
+      })
+      .then((res) => setEvents(res.data.payload || []))
       .catch(console.error);
   }, [currentDate]);
 
-  const handlePrev = () =>
-    setCurrentDate(d => new Date(d.getFullYear(), d.getMonth() - 1, 1));
-  const handleNext = () =>
-    setCurrentDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1));
+  const handlePrev = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1));
+  const handleNext = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1));
 
   const handleAdd = () => {
     setSelectedEvent(null);
-    setModalDate(new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      new Date().getDate()
-    ));
+    setModalDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), new Date().getDate()));
     setModalOpen(true);
   };
 
-  // залишаємо для кліку по порожній клітинці
-  const handleCellClick = date => {
+  const handleCellClick = (date) => {
     setSelectedEvent(null);
     setModalDate(date);
     setModalOpen(true);
   };
 
-  const handleSave = data => {
+  const handleSave = (data) => {
     const payload = {
       pet: data.pet,
       event_title: data.event_title,
       start_date: data.start_date,
       start_time: data.start_time,
       description: data.description,
-      completed: data.completed
+      completed: data.completed,
     };
     const req = data.id
       ? axios.put(`http://localhost:8000/calendar/${data.id}/`, payload)
       : axios.post('http://localhost:8000/calendar/', payload);
 
-    req.then(() => {
-      setModalOpen(false);
-      // оновлюємо події
-      const y = currentDate.getFullYear();
-      const m = currentDate.getMonth();
-      return axios.get('http://localhost:8000/calendar/', {
-        params: { year: y, month: m + 1 }
-      });
-    })
-    .then(res => setEvents(res.data.payload || []))
-    .catch(err => console.error('Validation errors:', err.response?.data));
+    req
+      .then(() => {
+        setModalOpen(false);
+        // оновлюємо події
+        const y = currentDate.getFullYear();
+        const m = currentDate.getMonth();
+        return axios.get('http://localhost:8000/calendar/', {
+          params: { year: y, month: m + 1 },
+        });
+      })
+      .then((res) => setEvents(res.data.payload || []))
+      .catch((err) => console.error('Validation errors:', err.response?.data));
   };
 
-  const handleDelete = id => {
-    axios.delete(`http://localhost:8000/calendar/${id}/`)
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:8000/calendar/${id}/`)
       .then(() => {
         setModalOpen(false);
         const y = currentDate.getFullYear();
         const m = currentDate.getMonth();
         return axios.get('http://localhost:8000/calendar/', {
-          params: { year: y, month: m + 1 }
+          params: { year: y, month: m + 1 },
         });
       })
-      .then(res => setEvents(res.data.payload || []))
-      .catch(err => console.error('Validation errors:', err.response?.data));
+      .then((res) => setEvents(res.data.payload || []))
+      .catch((err) => console.error('Validation errors:', err.response?.data));
   };
 
   return (
@@ -163,16 +182,18 @@ export default function CalendarPage() {
 
         <table className="calendar-table">
           <thead>
-            <tr>{['пн','вт','ср','чт','пт','сб','нд']
-              .map(d => <th key={d}>{d}</th>)}
+            <tr>
+              {['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'нд'].map((d) => (
+                <th key={d}>{d}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {weeks.map((week, i) => (
               <tr key={i}>
                 {week.map((day, j) => {
-                  const iso = day.toISOString().slice(0, 10);
-                  const dayEvents = events.filter(e => e.start_date === iso);
+                  const iso = formatDateLocal(day);
+                  const dayEvents = events.filter((e) => e.start_date === iso);
                   const visible = dayEvents.slice(0, 2);
                   const extra = dayEvents.length - visible.length;
 
@@ -184,33 +205,44 @@ export default function CalendarPage() {
                     >
                       <div className="cell-date">{day.getDate()}</div>
 
-                      {visible.map(evt => (
+                      {visible.map((evt) => (
                         <div
                           key={evt.id}
                           className="event-item"
-                          onClick={e => {
-                            e.stopPropagation();
-                            setSelectedEvent(evt);
-                            setModalDate(day);
-                            setModalOpen(true);
+                          onClick={(e) => {
+                            if (e.target.tagName !== 'INPUT') {
+                              e.stopPropagation();
+                              setSelectedEvent(evt);
+                              setModalDate(day);
+                              setModalOpen(true);
+                            }
                           }}
                         >
-                          <label>
-                            <input type="checkbox" checked={evt.completed} readOnly />
+                          <label onClick={(e) => e.stopPropagation()}>
+                            <input
+                              type="checkbox"
+                              checked={!!evt.completed}
+                              onChange={(e) => {
+                                e.stopPropagation();
+                                handleToggle(evt);
+                              }}
+                            />
                           </label>
-                          <span>{evt.start_time} {evt.event_title}</span>
+                          <span>
+                            {formatTimeHM(evt.start_time)} {evt.event_title}
+                          </span>
                         </div>
                       ))}
 
                       {extra > 0 && (
                         <div
                           className="more-events"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation();
                             // відкриваємо модалку для перегляду/додавання
                             setListEvents(dayEvents);
-                           setListDate(day);
-                           setListModalOpen(true);
+                            setListDate(day);
+                            setListModalOpen(true);
                           }}
                         >
                           +{extra}…
@@ -238,12 +270,13 @@ export default function CalendarPage() {
             date={listDate}
             events={listEvents}
             onClose={() => setListModalOpen(false)}
-            onEdit={evt => {
+            onEdit={(evt) => {
               setSelectedEvent(evt);
               setModalDate(listDate);
               setListModalOpen(false);
               setModalOpen(true);
             }}
+            onToggle={handleToggle}
           />
         )}
       </div>
