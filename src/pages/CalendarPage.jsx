@@ -7,7 +7,7 @@ import '../styles/CalendarStyle.css';
 import Header from '../components/Header';
 import EventsListModal from '../components/EventsListModal';
 
-const MONTHS_UA = [
+const MONTHS = [
   'Січень',
   'Лютий',
   'Березень',
@@ -80,7 +80,6 @@ export default function CalendarPage() {
       })
       .catch((err) => {
         console.error('Toggle error:', err.response?.status, err.response?.data);
-
       });
   };
 
@@ -110,12 +109,6 @@ export default function CalendarPage() {
   const handlePrev = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1));
   const handleNext = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1));
 
-  const handleAdd = () => {
-    setSelectedEvent(null);
-    setModalDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), new Date().getDate()));
-    setModalOpen(true);
-  };
-
   const handleCellClick = (date) => {
     setSelectedEvent(null);
     setModalDate(date);
@@ -138,7 +131,6 @@ export default function CalendarPage() {
     req
       .then(() => {
         setModalOpen(false);
-        // оновлюємо події
         const y = currentDate.getFullYear();
         const m = currentDate.getMonth();
         return axios.get('http://localhost:8000/calendar/', {
@@ -168,24 +160,38 @@ export default function CalendarPage() {
     <>
       <Header />
 
-      <div className="page-container">
-        <div className="calendar-header">
-          <button onClick={handlePrev}>&larr;</button>
-          <h2>
-            {currentDate.getFullYear()} — {MONTHS_UA[currentDate.getMonth()]}
-          </h2>
-          <button onClick={handleNext}>&rarr;</button>
-          <button className="btn-add" onClick={handleAdd}>
-            {t('add-button')}
-          </button>
+      <div className="calendar page-container">
+        <div className="calendar title-with-icon">
+          <img
+            src="/icons/page-2-calendar.png"
+            alt="page-2-calendar"
+            className="calendar icon-h1"
+          />
+          <span>Календар</span>
         </div>
-
+        <hr />
+        <div className="calendar-header">
+          <div className="month-nav">
+            <button className="nav-btn" onClick={handlePrev}>
+              &larr;
+            </button>
+            <span className="month-label">
+              {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
+            </span>
+            <button className="nav-btn" onClick={handleNext}>
+              &rarr;
+            </button>
+          </div>
+          <button className="btn-add">{t('add-button')}</button>
+        </div>
         <table className="calendar-table">
           <thead>
             <tr>
-              {['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'нд'].map((d) => (
-                <th key={d}>{d}</th>
-              ))}
+              {['Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота', 'Неділя'].map(
+                (d) => (
+                  <th key={d}>{d}</th>
+                ),
+              )}
             </tr>
           </thead>
           <tbody>
