@@ -1,11 +1,12 @@
 import React from 'react';
 import '../styles/CalendarStyle.css';
+import { useTranslation } from 'react-i18next';
 
 function formatDateLocal(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
+  return `${d}.${m}.${y}`;
 }
 
 function formatTimeHM(time) {
@@ -13,14 +14,17 @@ function formatTimeHM(time) {
 }
 
 export default function EventsListModal({ date, events, onClose, onEdit, onToggle }) {
+  const { t } = useTranslation();
   const iso = formatDateLocal(date);
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-window" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>
+    <div className="calendar modal-overlay" onClick={onClose}>
+      <div className="calendar modal-window" onClick={(e) => e.stopPropagation()}>
+        <button className="calendar close-btn" onClick={onClose}>
           ×
         </button>
-        <h3>Події на {iso}</h3>
+        <h3>
+          {t('events on')} {iso}
+        </h3>
         <div className="events-list">
           {events.map((evt) => (
             <div

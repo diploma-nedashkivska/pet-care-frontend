@@ -6,21 +6,7 @@ import { useTranslation } from 'react-i18next';
 import '../styles/CalendarStyle.css';
 import Header from '../components/Header';
 import EventsListModal from '../components/EventsListModal';
-
-const MONTHS = [
-  'Січень',
-  'Лютий',
-  'Березень',
-  'Квітень',
-  'Травень',
-  'Червень',
-  'Липень',
-  'Серпень',
-  'Вересень',
-  'Жовтень',
-  'Листопад',
-  'Грудень',
-];
+import ConfirmModal from '../components/ConfirmModal';
 
 function formatDateLocal(date) {
   const y = date.getFullYear();
@@ -51,7 +37,8 @@ function buildCalendar(year, month) {
 export default function CalendarPage() {
   const { token } = useAuth();
   const { t } = useTranslation();
-
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
   const [pets, setPets] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [weeks, setWeeks] = useState([]);
@@ -62,7 +49,20 @@ export default function CalendarPage() {
   const [listModalOpen, setListModalOpen] = useState(false);
   const [listEvents, setListEvents] = useState([]);
   const [listDate, setListDate] = useState(null);
-
+  const MONTHS = [
+    t('january'),
+    t('february'),
+    t('march'),
+    t('april'),
+    t('may'),
+    t('june'),
+    t('july'),
+    t('august'),
+    t('september'),
+    t('october'),
+    t('november'),
+    t('december'),
+  ];
   const handleToggle = (evt) => {
     axios
       .patch(
@@ -115,12 +115,18 @@ export default function CalendarPage() {
     setModalOpen(true);
   };
 
+  const handleAdd = () => {
+    setSelectedEvent(null);
+    setModalDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), new Date().getDate()));
+    setModalOpen(true);
+  };
+
   const handleSave = (data) => {
     const payload = {
       pet: data.pet,
       event_title: data.event_title,
       start_date: data.start_date,
-      start_time: data.start_time,
+      ...(data.start_time ? { start_time: data.start_time } : {}),
       description: data.description,
       completed: data.completed,
     };
@@ -141,19 +147,39 @@ export default function CalendarPage() {
       .catch((err) => console.error('Validation errors:', err.response?.data));
   };
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:8000/calendar/${id}/`)
-      .then(() => {
-        setModalOpen(false);
-        const y = currentDate.getFullYear();
-        const m = currentDate.getMonth();
-        return axios.get('http://localhost:8000/calendar/', {
-          params: { year: y, month: m + 1 },
-        });
-      })
+  const openConfirm = (id) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  };
+
+  const refreshEvents = () => {
+    const y = currentDate.getFullYear();
+    const m = currentDate.getMonth();
+    return axios
+      .get('http://localhost:8000/calendar/', { params: { year: y, month: m + 1 } })
       .then((res) => setEvents(res.data.payload || []))
-      .catch((err) => console.error('Validation errors:', err.response?.data));
+      .catch(console.error);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteId != null) {
+      axios
+        .delete(`http://localhost:8000/calendar/${deleteId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(() => refreshEvents())
+        .catch(console.error)
+        .finally(() => {
+          setConfirmOpen(false);
+          setDeleteId(null);
+          setModalOpen(false);
+        });
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmOpen(false);
+    setDeleteId(null);
   };
 
   return (
@@ -182,16 +208,24 @@ export default function CalendarPage() {
               &rarr;
             </button>
           </div>
-          <button className="btn-add">{t('add-button')}</button>
+          <button className="btn-add" onClick={handleAdd}>
+            {t('add-button')}
+          </button>
         </div>
         <table className="calendar-table">
           <thead>
             <tr>
-              {['Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота', 'Неділя'].map(
-                (d) => (
-                  <th key={d}>{d}</th>
-                ),
-              )}
+              {[
+                t('monday'),
+                t('tuesday'),
+                t('wednesday'),
+                t('thursday'),
+                t('friday'),
+                t('saturday'),
+                t('sunday'),
+              ].map((d) => (
+                <th key={d}>{d}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -245,7 +279,6 @@ export default function CalendarPage() {
                           className="more-events"
                           onClick={(e) => {
                             e.stopPropagation();
-                            // відкриваємо модалку для перегляду/додавання
                             setListEvents(dayEvents);
                             setListDate(day);
                             setListModalOpen(true);
@@ -269,7 +302,7 @@ export default function CalendarPage() {
           pets={pets}
           onClose={() => setModalOpen(false)}
           onSave={handleSave}
-          onDelete={handleDelete}
+          onDelete={openConfirm}
         />
         {listModalOpen && (
           <EventsListModal
@@ -285,6 +318,12 @@ export default function CalendarPage() {
             onToggle={handleToggle}
           />
         )}
+        <ConfirmModal
+          isOpen={confirmOpen}
+          message={t('confirm-delete-event')}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
       </div>
     </>
   );
