@@ -51,7 +51,7 @@
   "date": "Дата",
   "time": "Час",
   "description": "Опис",
-  "descriptionPlaceholder": "Введіть опис події",
+  "descriptionEventPlaceholder": "Введіть опис події",
   "completed": "Виконано",
   "confirm-delete-event": "Ви дійсно хочете видалити подію?",
   "events on": "Події на",
@@ -91,7 +91,8 @@
   "edit-journal-entry": "Редагування запису",
   "add-journal-entry": "Додавання запису",
   "confirm-delete-entry": "Ви дійсно хочете видалити запис?",
-
+  "descriptionEntryPlaceholder": "Введіть опис запису",
+  
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",
 

@@ -130,7 +130,7 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder={t('descriptionPlaceholder')}
+              placeholder={t('descriptionEntryPlaceholder')}
             />
           </div>
           <div className="journal modal-buttons">

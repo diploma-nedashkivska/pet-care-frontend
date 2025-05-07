@@ -183,7 +183,7 @@ export default function CalendarModal({
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder={t('descriptionPlaceholder')}
+              placeholder={t('descriptionEventPlaceholder')}
             />
           </div>
           <div className="calendar-form checkbox-group">
