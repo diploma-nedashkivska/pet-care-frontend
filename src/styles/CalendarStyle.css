@@ -120,3 +120,39 @@
 .more-events:hover {
   text-decoration: underline;
 }
+
+/* Відповідно до стилю .event-item у календарі */
+.events-list {
+  margin-top: 1rem;
+}
+.events-list .event-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.events-list .event-item:last-child {
+  margin-bottom: 0;
+}
+.events-list .event-item label {
+  margin-right: 0.5rem;
+}
+.events-list .event-item .event-link {
+  color: #0044cc;           /* колір підсвітки */
+  text-decoration: none;
+}
+.events-list .event-item .event-link:hover {
+  text-decoration: underline;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link-button:hover {
+  opacity: 0.8;
+}

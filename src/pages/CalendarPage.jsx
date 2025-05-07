@@ -6,6 +6,7 @@ import CalendarModal from '../components/CalendarModal';
 import { useTranslation } from 'react-i18next';
 import '../styles/CalendarStyle.css';
 import Header from '../components/Header';
+import EventsListModal from '../components/EventsListModal';
 
 const MONTHS_UA = [
   'Січень','Лютий','Березень','Квітень',
@@ -39,6 +40,27 @@ export default function CalendarPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [modalDate, setModalDate] = useState(new Date());
+  const [listModalOpen, setListModalOpen] = useState(false);
+  const [listEvents, setListEvents] = useState([]);
+  const [listDate, setListDate] = useState(null);
+
+  const handleToggle = evt => {
+    axios.patch(
+      `http://localhost:8000/calendar/${evt.id}/`,
+      { completed: !evt.completed }
+    )
+      .then(res => {
+        // оновлюємо глобальні події
+        setEvents(ev =>
+          ev.map(e => e.id === evt.id ? { ...e, completed: res.data.completed } : e)
+        );
+        // оновлюємо список, якщо він відкритий
+        setListEvents(le =>
+          le.map(e => e.id === evt.id ? { ...e, completed: res.data.completed } : e)
+        );
+      })
+      .catch(console.error);
+  };
 
   useEffect(() => {
     if (token) {
@@ -174,7 +196,7 @@ export default function CalendarPage() {
                           }}
                         >
                           <label>
-                            <input type="checkbox" checked={evt.completed} readOnly/>
+                            <input type="checkbox" checked={evt.completed} readOnly />
                           </label>
                           <span>{evt.start_time} {evt.event_title}</span>
                         </div>
@@ -186,9 +208,9 @@ export default function CalendarPage() {
                           onClick={e => {
                             e.stopPropagation();
                             // відкриваємо модалку для перегляду/додавання
-                            setSelectedEvent(null);
-                            setModalDate(day);
-                            setModalOpen(true);
+                            setListEvents(dayEvents);
+                           setListDate(day);
+                           setListModalOpen(true);
                           }}
                         >
                           +{extra}…
@@ -211,6 +233,19 @@ export default function CalendarPage() {
           onSave={handleSave}
           onDelete={handleDelete}
         />
+        {listModalOpen && (
+          <EventsListModal
+            date={listDate}
+            events={listEvents}
+            onClose={() => setListModalOpen(false)}
+            onEdit={evt => {
+              setSelectedEvent(evt);
+              setModalDate(listDate);
+              setListModalOpen(false);
+              setModalOpen(true);
+            }}
+          />
+        )}
       </div>
     </>
   );
