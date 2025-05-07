@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 const EventSchema = (t) =>
   z.object({
     pet: z.string().min(1, t('selectPetPlaceholder')),
-    event_type: z.string().min(1, t('selectTypePlaceholder')),
     event_title: z.string().min(1, t('titlePlaceholder')),
   });
 
@@ -150,14 +149,8 @@ export default function CalendarModal({
               </select>
             </div>
             <div className="calendar-form">
-              <label>{t('event_type')}</label>
-              <select
-                name="event_type"
-                value={form.event_type}
-                onChange={handleChange}
-                onFocus={() => clearError('event_type')}
-                className={errors.event_type ? 'input-error' : ''}
-              >
+              <label>{t('type')}</label>
+              <select name="event_type" value={form.event_type} onChange={handleChange}>
                 <option value="" disabled>
                   {errors.event_type || t('selectTypePlaceholder')}
                 </option>

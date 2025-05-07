@@ -56,7 +56,7 @@
   "confirm-delete-event": "Ви дійсно хочете видалити подію?",
   "events on": "Події на",
 
-  "event_type": "Тип",
+  "type": "Тип",
   "selectTypePlaceholder": "Оберіть тип",
   "checkup": "Огляд у ветеринара",
   "vaccination": "Вакцинація",
@@ -86,6 +86,11 @@
   "friday": "П'ятниця",
   "saturday": "Субота",
   "sunday": "Неділя",
+
+  "journal": "Журнал",
+  "edit-journal-entry": "Редагування запису",
+  "add-journal-entry": "Додавання запису",
+  "confirm-delete-entry": "Ви дійсно хочете видалити запис?",
 
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",

@@ -67,6 +67,10 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
     onSave(form);
   };
 
+  const clearError = (field) => {
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
   return (
     <div className="journal modal-overlay">
       <div className="journal modal-window">
@@ -81,6 +85,7 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
               name="entry_title"
               value={form.entry_title}
               onChange={handleChange}
+              onFocus={() => clearError('entry_title')}
               placeholder={errors.entry_title || t('titlePlaceholder')}
               className={errors.entry_title ? 'input-error' : ''}
             />
@@ -92,6 +97,7 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
                 name="pet"
                 value={form.pet}
                 onChange={handleChange}
+                onFocus={() => clearError('pet')}
                 className={errors.pet ? 'input-error' : ''}
               >
                 <option value="" disabled>
@@ -105,14 +111,8 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
               </select>
             </div>
             <div className="journal-form">
-              <label>{t('entry_type')}</label>
-              <select
-                name="entry_type"
-                value={form.entry_type}
-                onChange={handleChange}
-                onFocus={() => clearError('entry_type')}
-                className={errors.entry_type ? 'input-error' : ''}
-              >
+              <label>{t('type')}</label>
+              <select name="entry_type" value={form.entry_type} onChange={handleChange}>
                 <option value="" disabled>
                   {errors.entry_type || t('selectTypePlaceholder')}
                 </option>

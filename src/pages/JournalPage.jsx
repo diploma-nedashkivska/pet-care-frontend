@@ -83,7 +83,7 @@ export default function JournalPage() {
       <div className="journal page-container">
         <div className="journal title-with-icon">
           <img src="/icons/page-3-journal.png" alt="journal" className="calendar icon-h1" />
-          <span>Журнал</span>
+          <span>{t('journal')}</span>
         </div>
         <hr />
         <div className="journal-header">
