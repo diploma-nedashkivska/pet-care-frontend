@@ -76,8 +76,8 @@ export default function PetPage() {
       <Header />
       <div className="pets page-container">
         <div className="pets-header">
-          <div className="title-with-icon">
-            <img src="/icons/page-1-pets.png" alt="page-1-pets" className="icon-h1" />
+          <div className="pets title-with-icon">
+            <img src="/icons/page-1-pets.png" alt="page-1-pets" className="pets icon-h1" />
             <span>{t('pets-page')}</span>
           </div>
           <button onClick={handleAdd} className="btn-add">
