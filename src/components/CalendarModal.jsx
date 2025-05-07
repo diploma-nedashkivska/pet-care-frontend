@@ -26,9 +26,19 @@ export default function CalendarModal({
   pets,
 }) {
   const { t } = useTranslation();
+  const TYPE_CHOICES = [
+    { value: 'CHECKUP', label: t('checkup') },
+    { value: 'VACCINATION', label: t('vaccination') },
+    { value: 'FLEA_CTRL', label: t('flea_ctrl') },
+    { value: 'GROOMING', label: t('grooming') },
+    { value: 'BATH', label: t('bath') },
+    { value: 'TRAINING', label: t('training') },
+    { value: 'OTHER', label: t('other') },
+  ];
   const [form, setForm] = useState({
     id: null,
     pet: '',
+    event_type: 'OTHER',
     event_title: '',
     start_date: formatDateLocal(date),
     start_time: '',
@@ -42,7 +52,8 @@ export default function CalendarModal({
     if (eventData) {
       setForm({
         id: eventData.id,
-        pet: eventData.pet,
+        pet: String(eventData.pet),
+        event_type: String(eventData.event_type || 'OTHER'),
         event_title: eventData.event_title,
         start_date: eventData.start_date,
         start_time: eventData.start_time || '',
@@ -54,6 +65,7 @@ export default function CalendarModal({
         ...f,
         id: null,
         pet: '',
+        event_type: 'OTHER',
         start_date: formatDateLocal(date),
         event_title: '',
         start_time: '',
@@ -76,7 +88,10 @@ export default function CalendarModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const schema = EventSchema(t);
+    let schema = EventSchema(t);
+    if (form.id) {
+      schema = schema.partial({ pet: true });
+    }
     const result = schema.safeParse(form);
     if (!result.success) {
       const fieldErrors = {};
@@ -103,25 +118,6 @@ export default function CalendarModal({
         <h2>{form.id ? t('edit-event') : t('add-event')}</h2>
         <form onSubmit={handleSubmit} noValidate>
           <div className="calendar-form">
-            <label>{t('pet')}</label>
-            <select
-              name="pet"
-              value={form.pet}
-              onChange={handleChange}
-              onFocus={() => clearError('pet')}
-              className={errors.pet ? 'input-error' : ''}
-            >
-              <option value="" disabled>
-                {errors.pet || t('selectPetPlaceholder')}
-              </option>
-              {pets.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.pet_name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="calendar-form">
             <label>{t('title')}</label>
             <input
               name="event_title"
@@ -131,6 +127,40 @@ export default function CalendarModal({
               placeholder={errors.event_title || t('titlePlaceholder')}
               className={errors.event_title ? 'input-error' : ''}
             />
+          </div>
+          <div className="calendar-form-row">
+            <div className="calendar-form">
+              <label>{t('pet')}</label>
+              <select
+                name="pet"
+                value={form.pet}
+                onChange={handleChange}
+                onFocus={() => clearError('pet')}
+                className={errors.pet ? 'input-error' : ''}
+              >
+                <option value="" disabled>
+                  {errors.pet || t('selectPetPlaceholder')}
+                </option>
+                {pets.map((p) => (
+                  <option key={p.id} value={String(p.id)}>
+                    {p.pet_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="calendar-form">
+              <label>{t('type')}</label>
+              <select name="event_type" value={form.event_type} onChange={handleChange}>
+                <option value="" disabled>
+                  {errors.event_type || t('selectTypePlaceholder')}
+                </option>
+                {TYPE_CHOICES.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="calendar-form">
             <label>{t('date')}</label>
@@ -153,7 +183,7 @@ export default function CalendarModal({
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder={t('descriptionPlaceholder')}
+              placeholder={t('descriptionEventPlaceholder')}
             />
           </div>
           <div className="calendar-form checkbox-group">

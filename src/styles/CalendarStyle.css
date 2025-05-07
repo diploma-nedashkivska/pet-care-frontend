@@ -118,8 +118,8 @@
 }
 .event-item span {
   flex-grow: 1;
-  display: inline-block; 
-  max-width: calc(100% - 24px); 
+  display: inline-block;
+  max-width: calc(100% - 24px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -235,6 +235,16 @@
   margin-right: 0.5rem;
   transform: scale(1.1);
   vertical-align: middle;
+}
+
+.calendar-form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.calendar-form-row .calendar-form {
+  flex: 1;
+  min-width: 0;
 }
 
 .more-events {
