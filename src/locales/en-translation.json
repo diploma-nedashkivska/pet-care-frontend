@@ -56,6 +56,16 @@
   "confirm-delete-event": "Are you sure you want to delete the event?",
   "events on": "Events on",
 
+  "event_type": "Type",
+  "selectTypePlaceholder": "Select a type",
+  "checkup": "Veterinary Check-Up",
+  "vaccination": "Vaccination",
+  "flea_ctrl": "Flea & Tick Treatment",
+  "grooming": "Grooming",
+  "bath": "Bath",
+  "training": "Training",
+  "other": "Other",
+
   "january": "January",
   "february": "February",
   "march": "March",

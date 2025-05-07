@@ -56,6 +56,16 @@
   "confirm-delete-event": "Ви дійсно хочете видалити подію?",
   "events on": "Події на",
 
+  "event_type": "Тип",
+  "selectTypePlaceholder": "Оберіть тип",
+  "checkup": "Огляд у ветеринара",
+  "vaccination": "Вакцинація",
+  "flea_ctrl": "Обробка від бліх/кліщів",
+  "grooming": "Грумінг",
+  "bath": "Купання",
+  "training": "Тренування",
+  "other": "Інше",
+
   "january": "Січень",
   "february": "Лютий",
   "march": "Березень",

@@ -77,6 +77,19 @@ export default function CalendarPage() {
         setListEvents((le) =>
           le.map((e) => (e.id === evt.id ? { ...e, completed: !evt.completed } : e)),
         );
+        if (!evt.completed) {
+          axios
+            .post(
+              'http://localhost:8000/journal/',
+              {
+                pet: evt.pet,
+                entry_title: evt.event_title,
+                description: evt.description || '',
+              },
+              { headers: { Authorization: `Bearer ${token}` } },
+            )
+            .catch(console.error);
+        }
       })
       .catch((err) => {
         console.error('Toggle error:', err.response?.status, err.response?.data);
@@ -124,6 +137,7 @@ export default function CalendarPage() {
   const handleSave = (data) => {
     const payload = {
       pet: data.pet,
+      event_type: data.event_type,
       event_title: data.event_title,
       start_date: data.start_date,
       ...(data.start_time ? { start_time: data.start_time } : {}),
