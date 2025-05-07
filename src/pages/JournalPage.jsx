@@ -83,7 +83,9 @@ export default function JournalPage() {
       });
   };
 
-  const filtered = entries.filter((e) => !filterType || e.entry_type === filterType);
+  const filtered = entries
+    .filter((e) => !filterType || e.entry_type === filterType)
+    .sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -113,7 +115,7 @@ export default function JournalPage() {
         <table className="journal-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th style={{ width: '60px' }}>ID</th>
               <th>{t('pet')}</th>
               <th>{t('title')}</th>
               <th>{t('date')}</th>
@@ -136,7 +138,6 @@ export default function JournalPage() {
             ))}
           </tbody>
         </table>
-
         <JournalModal
           isOpen={modalOpen}
           entryData={selectedEntry}

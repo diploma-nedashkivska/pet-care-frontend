@@ -83,6 +83,7 @@ export default function CalendarPage() {
               'http://localhost:8000/journal/',
               {
                 pet: evt.pet,
+                entry_type: evt.event_type,
                 entry_title: evt.event_title,
                 description: evt.description || '',
               },
