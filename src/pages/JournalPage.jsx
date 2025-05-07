@@ -7,21 +7,26 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/JournalStyle.css';
 import { useTranslation } from 'react-i18next';
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('uk-UA');
-}
-
 export default function JournalPage() {
   const { token } = useAuth();
   const { t } = useTranslation();
   const [pets, setPets] = useState([]);
   const [entries, setEntries] = useState([]);
+  const [filterType, setFilterType] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-
+  const TYPE_CHOICES = [
+    { value: '', label: t('allTypes') },
+    { value: 'CHECKUP', label: t('checkup') },
+    { value: 'VACCINATION', label: t('vaccination') },
+    { value: 'FLEA_CTRL', label: t('flea_ctrl') },
+    { value: 'GROOMING', label: t('grooming') },
+    { value: 'BATH', label: t('bath') },
+    { value: 'TRAINING', label: t('training') },
+    { value: 'OTHER', label: t('other') },
+  ];
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     axios
@@ -46,6 +51,7 @@ export default function JournalPage() {
   const handleSave = (form) => {
     const payload = {
       pet: form.pet,
+      entry_type: form.entry_type,
       entry_title: form.entry_title,
       description: form.description,
     };
@@ -77,6 +83,8 @@ export default function JournalPage() {
       });
   };
 
+  const filtered = entries.filter((e) => !filterType || e.entry_type === filterType);
+
   return (
     <>
       <Header />
@@ -86,7 +94,18 @@ export default function JournalPage() {
           <span>{t('journal')}</span>
         </div>
         <hr />
-        <div className="journal-header">
+        <div className="journal-header journal-header--with-filter">
+          <select
+            className="journal-filter"
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            {TYPE_CHOICES.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
           <button className="btn-add" onClick={handleAdd}>
             {t('add-button')}
           </button>
@@ -101,7 +120,7 @@ export default function JournalPage() {
             </tr>
           </thead>
           <tbody>
-            {entries.map((e) => (
+            {filtered.map((e) => (
               <tr
                 key={e.id}
                 onClick={() => {
@@ -112,7 +131,7 @@ export default function JournalPage() {
                 <td>{e.id}</td>
                 <td>{pets.find((p) => p.id === e.pet)?.pet_name || '—'}</td>
                 <td>{e.entry_title}</td>
-                <td>{formatDate(e.created_at)}</td>
+                <td>{new Date(e.created_at).toLocaleDateString('uk-UA')}</td>
               </tr>
             ))}
           </tbody>

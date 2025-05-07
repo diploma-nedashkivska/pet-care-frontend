@@ -33,13 +33,13 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
     if (entryData) {
       setForm({
         id: entryData.id,
-        pet: entryData.pet,
-        entry_type: entryData.entry_type || 'OTHER',
+        pet: String(entryData.pet),
+        entry_type: String(entryData.entry_type || 'OTHER'),
         entry_title: entryData.entry_title,
         description: entryData.description || '',
       });
     } else {
-      setForm({ id: null, pet: '', entry_title: '', description: '' });
+      setForm({ id: null, pet: '', entry_type: 'OTHER', entry_title: '', description: '' });
     }
     setErrors({});
   }, [entryData]);
@@ -54,7 +54,10 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const schema = JournalSchema(t);
+    let schema = JournalSchema(t);
+    if (form.id) {
+      schema = schema.partial({ pet: true });
+    }
     const result = schema.safeParse(form);
     if (!result.success) {
       const fieldErrors = {};

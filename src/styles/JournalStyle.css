@@ -175,3 +175,25 @@
   flex: 1;
   min-width: 0;
 }
+
+/* Відповідні класи вже є у вас, додаємо лише нові стилі */
+
+.journal-header--with-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0;
+}
+
+/* Селект-фільтр зліва */
+.journal-filter {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Якщо потрібно, можна зменшити ширину */
+.journal-filter {
+  max-width: 300px;
+}

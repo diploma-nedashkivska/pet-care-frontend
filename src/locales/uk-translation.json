@@ -65,6 +65,7 @@
   "bath": "Купання",
   "training": "Тренування",
   "other": "Інше",
+  "allTypes": "Усі типи",
 
   "january": "Січень",
   "february": "Лютий",
@@ -92,7 +93,7 @@
   "add-journal-entry": "Додавання запису",
   "confirm-delete-entry": "Ви дійсно хочете видалити запис?",
   "descriptionEntryPlaceholder": "Введіть опис запису",
-  
+
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",
 
