@@ -234,8 +234,16 @@ export default function CalendarPage() {
                 {week.map((day, j) => {
                   const iso = formatDateLocal(day);
                   const dayEvents = events.filter((e) => e.start_date === iso);
-                  const visible = dayEvents.slice(0, 2);
-                  const extra = dayEvents.length - visible.length;
+                  const sortedEvents = [...dayEvents].sort((a, b) => {
+                    const ta = a.start_time,
+                      tb = b.start_time;
+                    if (ta && tb) return ta.localeCompare(tb);
+                    if (ta && !tb) return -1;
+                    if (!ta && tb) return 1;
+                    return a.event_title.localeCompare(b.event_title);
+                  });
+                  const visible = sortedEvents.slice(0, 2);
+                  const extra = sortedEvents.length - visible.length;
 
                   return (
                     <td

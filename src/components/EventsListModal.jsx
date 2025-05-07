@@ -16,17 +16,32 @@ function formatTimeHM(time) {
 export default function EventsListModal({ date, events, onClose, onEdit, onToggle }) {
   const { t } = useTranslation();
   const iso = formatDateLocal(date);
+  const sorted = [...events].sort((a, b) => {
+    const ta = a.start_time;
+    const tb = b.start_time;
+    if (ta && tb) {
+      return ta.localeCompare(tb);
+    }
+    if (ta && !tb) {
+      return -1;
+    }
+    if (!ta && tb) {
+      return 1;
+    }
+    return a.event_title.localeCompare(b.event_title);
+  });
+
   return (
     <div className="calendar modal-overlay" onClick={onClose}>
       <div className="calendar modal-window" onClick={(e) => e.stopPropagation()}>
         <button className="calendar close-btn" onClick={onClose}>
-          ×
+          <img src="/icons/close.png" alt="close" />
         </button>
         <h3>
           {t('events on')} {iso}
         </h3>
         <div className="events-list">
-          {events.map((evt) => (
+          {sorted.map((evt) => (
             <div
               key={evt.id}
               className="event-item"
