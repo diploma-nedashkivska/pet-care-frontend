@@ -37,7 +37,7 @@
 .journal-table td {
   border: none;
   border-bottom: 1px solid #ddd;
-  padding: 8px 8px 8px 50px; 
+  padding: 8px 8px 8px 50px;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -193,7 +193,6 @@
   flex: 1;
   min-width: 0;
 }
-
 
 .journal-header--with-filter {
   display: flex;
