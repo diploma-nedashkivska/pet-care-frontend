@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 
 const PARTNER_TYPE = [
-  { value: '', label: 'Усі типи' },
+  { value: '', label: 'Усі' },
   { value: 'CLINIC', label: 'Ветеринарні клініки' },
   { value: 'GROOMING_SALON', label: 'Грумінг-салони' },
   { value: 'PET_STORE', label: 'Зоомагазини' },
 ];
 
 const RATING_OPTIONS = [
-  { value: '', label: 'Усі рейтинги' },
+  { value: '', label: 'Усі' },
   { value: 'rating-good', label: 'Хороший' },
   { value: 'rating-ok', label: 'Середній' },
   { value: 'rating-bad', label: 'Поганий' },
@@ -66,30 +66,36 @@ export default function PartnersPage() {
         <hr />
         <div className="partners-header">
           <div className="partners-header-filters">
-            <select
-              className="partners-filter"
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-            >
-              {PARTNER_TYPE.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="partners-filter"
-              value={ratingCategory}
-              onChange={(e) => setRatingCategory(e.target.value)}
-            >
-              {RATING_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+            <label className="partners-filter-label">
+              Тип:&nbsp;
+              <select
+                className="partners-filter"
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                {PARTNER_TYPE.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="partners-filter-label">
+              Рейтинг:&nbsp;
+              <select
+                className="partners-filter"
+                value={ratingCategory}
+                onChange={(e) => setRatingCategory(e.target.value)}
+              >
+                {RATING_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
+
           <input
             className="partners-search"
             type="text"

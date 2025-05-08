@@ -34,9 +34,16 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 185px;
+  margin-left: 4px;
+  outline: none;
 }
-.partners-filter {
-  width: 180px;
+
+.partners-filter-label {
+  font-size: 0.9rem;
+  color: #0f0e0f;
+  display: flex;
+  align-items: center;
 }
 .partners-search {
   padding: 8px;
@@ -44,13 +51,13 @@
   border: 1px solid #ccc;
   border-radius: 15px;
   width: 250px;
+  outline: none;
 }
 
 .partners-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* чотири колонки порівну */
-  gap: 16px; /* відступи між картками */
-  /* padding: 1rem; */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 .partner-card {
   background-color: #fff;
