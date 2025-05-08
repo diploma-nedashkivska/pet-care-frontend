@@ -16,6 +16,7 @@
 }
 
 .forum-post {
+  position: relative; 
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 12px;
@@ -80,4 +81,23 @@
 .img-icon {
   width: 20px;
   height: 20px;
+}
+
+.delete-post-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.delete-post-btn img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.delete-post-btn:hover img {
+  opacity: 1;
 }
