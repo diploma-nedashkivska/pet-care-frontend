@@ -24,16 +24,28 @@
   margin-bottom: 16px;
   margin-top: 16px;
 }
-.partners-filter,
-.partners-search {
+.partners-header-filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.partners-filter {
   padding: 8px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 .partners-filter {
-  min-width: 180px;
+  width: 180px;
 }
+.partners-search {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  width: 250px;
+}
+
 .partners-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* чотири колонки порівну */

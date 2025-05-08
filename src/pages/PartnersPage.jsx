@@ -6,10 +6,17 @@ import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 
 const PARTNER_TYPE = [
-  { value: '', label: 'Усі' },
+  { value: '', label: 'Усі типи' },
   { value: 'CLINIC', label: 'Ветеринарні клініки' },
   { value: 'GROOMING_SALON', label: 'Грумінг-салони' },
   { value: 'PET_STORE', label: 'Зоомагазини' },
+];
+
+const RATING_OPTIONS = [
+  { value: '', label: 'Усі рейтинги' },
+  { value: 'rating-good', label: 'Хороший' },
+  { value: 'rating-ok', label: 'Середній' },
+  { value: 'rating-bad', label: 'Поганий' },
 ];
 
 export default function PartnersPage() {
@@ -18,6 +25,7 @@ export default function PartnersPage() {
   const [partners, setPartners] = useState([]);
   const [filterType, setFilterType] = useState('');
   const [search, setSearch] = useState('');
+  const [ratingCategory, setRatingCategory] = useState('');
   const handleError = (e) => {
     e.target.src = '/icons/pet-default.png';
   };
@@ -36,7 +44,11 @@ export default function PartnersPage() {
 
   const filtered = partners
     .filter((p) => !filterType || p.partner_type === filterType)
-    .filter((p) => p.site_name.toLowerCase().includes(search.toLowerCase()));
+    .filter((p) => p.site_name.toLowerCase().includes(search.toLowerCase()))
+    .filter((p) => {
+      if (!ratingCategory) return true;
+      return getRatingClass(p.rating) === ratingCategory;
+    });
 
   return (
     <>
@@ -53,18 +65,31 @@ export default function PartnersPage() {
         </div>
         <hr />
         <div className="partners-header">
-          <select
-            className="partners-filter"
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-          >
-            {PARTNER_TYPE.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <div className="partners-header-filters">
+            <select
+              className="partners-filter"
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+            >
+              {PARTNER_TYPE.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
 
+            <select
+              className="partners-filter"
+              value={ratingCategory}
+              onChange={(e) => setRatingCategory(e.target.value)}
+            >
+              {RATING_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <input
             className="partners-search"
             type="text"
