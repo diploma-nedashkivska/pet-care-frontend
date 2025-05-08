@@ -5,11 +5,6 @@
   background-color: #fafafa;
 }
 
-.icon-h1 {
-  width: 40px;
-  height: 40px;
-}
-
 .calendar.icon-h1 {
   width: 40px;
   height: 40px;
@@ -97,6 +92,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  background-color: #e8e8e8;
 }
 .other-month {
   background: #f9f9f9;

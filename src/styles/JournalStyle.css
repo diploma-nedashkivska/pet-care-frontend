@@ -4,6 +4,11 @@
   background-color: #fafafa;
 }
 
+.journal.icon-h1 {
+  width: 40px;
+  height: 40px;
+}
+
 .journal.title-with-icon {
   display: flex;
   align-items: center;

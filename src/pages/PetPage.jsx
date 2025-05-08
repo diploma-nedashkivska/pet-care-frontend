@@ -14,7 +14,9 @@ export default function PetPage() {
   const [editingPet, setEditingPet] = useState(null);
   const [confirm, setConfirm] = useState({ isOpen: false, petId: null });
   const { t } = useTranslation();
-
+  const handleError = (e) => {
+    e.target.src = '/icons/pet-default.png';
+  };
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     fetchPets();
@@ -88,7 +90,11 @@ export default function PetPage() {
         <div className="pet-grid">
           {pets.map((p) => (
             <div key={p.id} className="pet-card">
-              <img src={p.photo_url || '/icons/pet-default.png'} alt={p.pet_name} />
+              <img
+                src={p.photo_url || '/icons/pet-default.png'}
+                alt={p.pet_name}
+                onError={handleError}
+              />
               <h3 className="pet-name-breed">{p.pet_name}</h3>
               <p className="pet-name-breed">
                 <i>{p.breed}</i>
