@@ -8,6 +8,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import PetPage from './pages/PetPage';
 import CalendarPage from './pages/CalendarPage';
 import JournalPage from './pages/JournalPage';
+import PartnersPage from './pages/PartnersPage';
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <JournalPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/partners"
+            element={
+              <ProtectedRoute>
+                <PartnersPage />
               </ProtectedRoute>
             }
           />

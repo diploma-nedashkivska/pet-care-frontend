@@ -15,7 +15,9 @@ const ProfileSchema = (t) =>
 export default function UserProfile({ isOpen, onClose, onUpdate }) {
   const { t } = useTranslation();
   const { logout } = useAuth();
-
+  const handleError = (e) => {
+    e.target.src = '/icons/user.png';
+  };
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -97,7 +99,12 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
         <h2>Редагувати профіль</h2>
         <div className="user modal-content">
           <div className="user avatar-column">
-            <img src={preview || '/icons/user.png'} alt="avatar" className="user avatar-image" />
+            <img
+              src={preview || '/icons/user.png'}
+              alt="avatar"
+              className="user avatar-image"
+              onError={handleError}
+            />
           </div>
           <div className="user form-column">
             <form onSubmit={handleSubmit} noValidate>
