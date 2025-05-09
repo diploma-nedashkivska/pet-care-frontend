@@ -4,6 +4,7 @@ import { useAuth } from '../components/AuthContext';
 import '../styles/PartnersStyle.css';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
+import { toast } from 'react-toastify';
 
 export default function PartnersPage() {
   const { token } = useAuth();
@@ -32,22 +33,30 @@ export default function PartnersPage() {
   const handleError = (e) => {
     e.target.src = '/icons/pet-default.png';
   };
+
   const getRatingClass = (rating) => {
     if (rating >= 7) return 'rating-good';
     if (rating >= 4 && rating < 7) return 'rating-ok';
     return 'rating-bad';
   };
+
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     axios
       .get('http://localhost:8000/partners/')
       .then((res) => setPartners(res.data))
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('partners-fetch-error'));
+      });
     axios
       .get('http://localhost:8000/partners/watchlist/')
       .then((r) => setWatchlist(r.data.payload))
-      .catch(console.error);
-  }, [token]);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('watchlist-fetch-error'));
+      });
+  }, [token, t]);
 
   const filtered = partners
     .filter((p) => !filterType || p.partner_type === filterType)

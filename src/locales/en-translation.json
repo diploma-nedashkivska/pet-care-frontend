@@ -159,5 +159,14 @@
   "journal-save-error": "Error saving entry",
   "journal-delete-success": "Entry deleted successfully",
   "journal-delete-error": "Error deleting entry",
-  "journal-validation-error": "Please correct the errors in the form"
+  "journal-validation-error": "Please correct the errors in the form",
+
+  "forum-fetch-error": "Failed to load posts",
+  "forum-create-success": "Post created successfully",
+  "forum-create-error": "Error creating post",
+  "forum-delete-success": "Post deleted successfully",
+  "forum-delete-error": "Error deleting post",
+  "forum-like-error": "Failed to update like",
+  "forum-comment-success": "Comment added successfully",
+  "forum-comment-error": "Error adding comment"
 }

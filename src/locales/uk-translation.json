@@ -159,5 +159,14 @@
   "journal-save-error": "Помилка збереження запису",
   "journal-delete-success": "Запис успішно видалено",
   "journal-delete-error": "Помилка видалення запису",
-  "journal-validation-error": "Будь ласка, виправте помилки у формі"
+  "journal-validation-error": "Будь ласка, виправте помилки у формі",
+
+  "forum-fetch-error": "Не вдалося завантажити дописи",
+  "forum-create-success": "Допис успішно створено",
+  "forum-create-error": "Помилка створення допису",
+  "forum-delete-success": "Допис успішно видалено",
+  "forum-delete-error": "Помилка видалення допису",
+  "forum-like-error": "Не вдалося оновити лайк",
+  "forum-comment-success": "Коментар успішно додано",
+  "forum-comment-error": "Помилка додавання коментаря"
 }

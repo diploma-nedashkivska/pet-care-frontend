@@ -5,6 +5,7 @@ import '../styles/ForumStyle.css';
 import Header from '../components/Header';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 export default function ForumPage() {
   const { t } = useTranslation();
@@ -24,8 +25,11 @@ export default function ForumPage() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setPosts(res.data))
-      .catch(console.error);
-  }, [token]);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-fetch-error'));
+      });
+  }, [token, t]);
 
   useEffect(() => {
     fetchPosts();
@@ -55,8 +59,12 @@ export default function ForumPage() {
         setPosts([res.data, ...posts]);
         setNewText('');
         setNewFile(null);
+        toast.success(t('forum-create-success'));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-create-error'));
+      });
   };
 
   const deletePost = (id) => {
@@ -68,8 +76,12 @@ export default function ForumPage() {
         setPosts(posts.filter((p) => p.id !== id));
         setConfirmOpen(false);
         setPostToDelete(null);
+        toast.success(t('forum-delete-success'));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-delete-error'));
+      });
   };
 
   const handleDeleteClick = (id) => {
@@ -92,6 +104,10 @@ export default function ForumPage() {
               : p,
           ),
         );
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-like-error'));
       });
   };
 
@@ -118,8 +134,12 @@ export default function ForumPage() {
           posts.map((p) => (p.id === postId ? { ...p, comments: [...p.comments, res.data] } : p)),
         );
         setCommentTexts((prev) => ({ ...prev, [postId]: '' }));
+        toast.success(t('forum-comment-success'));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-comment-error'));
+      });
   };
 
   if (!user) return null;
