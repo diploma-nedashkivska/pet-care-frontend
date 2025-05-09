@@ -94,7 +94,25 @@
   "confirm-delete-entry": "Ви дійсно хочете видалити запис?",
   "descriptionEntryPlaceholder": "Введіть опис запису",
 
+  "forum": "Форум",
+  "comment-button": "Коментувати",
+  "send-button": "Відправити",
+  "confirm-delete-post": "Ви дійсно хочете видалити допис?",
+  "postPlaceholder": "Що нового?",
+  "commentPlaceholder": "Відповісти...",
+
   "searchPlaceholder": "Пошук сайту...",
+  "rating": "Рейтинг",
+  "good": "Хороший",
+  "ok": "Середній",
+  "bad": "Поганий",
+  "all": "Усі",
+  "veterinary-clinics": "Ветеринарні клініки",
+  "grooming-salons": "Грумінг-салони",
+  "pet-stores": "Зоомагазини",
+
+  "edit-profile": "Редагування профілю",
+
   "error-signin-email": "Введіть пошту",
   "error-signin-password": "Введіть пароль",
 

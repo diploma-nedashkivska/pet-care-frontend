@@ -31,13 +31,14 @@
   margin: 0;
   padding: 12px 28px;
   background: #ffc107;
-  color: #000;
+  color: #0f0e0f;
   font-size: 1rem;
   font-weight: bold;
   border: none;
   border-radius: 4px;
   transition: background 0.2s;
 }
+
 .pets.page-container .btn-add:hover {
   background: #e6ac00;
 }
@@ -54,9 +55,11 @@
   overflow-y: hidden;
   padding: 16px 0;
 }
+
 .pet-grid::-webkit-scrollbar {
   height: 8px;
 }
+
 .pet-grid::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -87,6 +90,7 @@
   font-size: 1.25rem;
   font-weight: 600;
 }
+
 .pet-card p {
   margin: 4px 16px;
   font-size: 0.9rem;
@@ -232,6 +236,7 @@
   background: #fff;
   border: 1px solid #bbb;
 }
+
 .pet.modal-buttons button[type='button']:hover {
   background: #f0f0f0;
 }
@@ -239,9 +244,10 @@
 .pet.modal-buttons button[type='submit'] {
   background: #ffc107;
   border: none;
-  color: #000;
+  color: #0f0e0f;
   font-weight: 600;
 }
+
 .pet.modal-buttons button[type='submit']:hover {
   background: #e6ac00;
 }

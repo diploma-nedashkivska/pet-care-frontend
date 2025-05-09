@@ -27,6 +27,10 @@
   height: 100%;
 }
 
+.main-nav {
+  margin-left: 100px;
+}
+
 .main-nav a {
   display: inline-block;
   color: #fafafa;
@@ -60,6 +64,10 @@
 .user-name {
   padding-right: 1rem;
   color: #fafafa;
+  max-width: 20ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-icon {

@@ -63,22 +63,25 @@
 .calendar.page-container .btn-add {
   margin-left: auto;
   padding: 10px 28px;
-  background: #ffc107;
-  color: #000;
+  background: #edb624;
+  color: #0f0e0f;
   font-size: 1rem;
   font-weight: bold;
   border: none;
   border-radius: 4px;
   transition: background 0.2s;
 }
+
 .calendar.page-container .btn-add:hover {
   background: #e6ac00;
 }
+
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
+
 .calendar-table th,
 .calendar-table td {
   border: 1px solid #ddd;
@@ -87,6 +90,7 @@
   padding: 8px;
   overflow: hidden;
 }
+
 .calendar-table th {
   color: #0f0e0f;
   white-space: nowrap;
@@ -94,24 +98,29 @@
   overflow: hidden;
   background-color: #e8e8e8;
 }
+
 .other-month {
   background: #f9f9f9;
   color: #aaa;
 }
+
 .cell-date {
   font-size: 1rem;
   margin-bottom: 15px;
   text-align: center;
 }
+
 .event-item {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
   font-size: 0.9em;
 }
+
 .event-item label {
   margin-right: 4px;
 }
+
 .event-item span {
   flex-grow: 1;
   display: inline-block;
@@ -120,6 +129,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .calendar.modal-overlay {
   position: fixed;
   top: 0;
@@ -132,6 +142,7 @@
   justify-content: center;
   z-index: 1000;
 }
+
 .calendar.modal-window {
   position: relative;
   background-color: #fff;
@@ -141,21 +152,25 @@
   max-width: 480px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
+
 .calendar.modal-window h2 {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
+
 .calendar-form {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.5rem;
 }
+
 .calendar-form label {
   margin-bottom: 0.3rem;
   color: #0f0e0f;
 }
+
 .calendar-form input,
 .calendar-form textarea,
 .calendar-form select {
@@ -167,6 +182,7 @@
   outline: none;
   box-sizing: border-box;
 }
+
 .calendar-form.checkbox-group .checkbox-label {
   display: inline-flex;
   align-items: center;
@@ -181,6 +197,7 @@
   gap: 0.5rem;
   margin-top: 1rem;
 }
+
 .calendar.modal-buttons button {
   text-align: center;
   padding: 8px 16px;
@@ -200,6 +217,7 @@
   color: #d32f2f;
   background-color: #fff;
 }
+
 .calendar.modal-buttons button[type='submit']:hover {
   background-color: #0f41d6;
 }
@@ -223,10 +241,12 @@
   width: 20px;
   height: 20px;
 }
+
 .calendar-form.checkbox-group {
   flex-direction: row;
   align-items: center;
 }
+
 .calendar-form.checkbox-group input[type='checkbox'] {
   margin-right: 0.5rem;
   transform: scale(1.1);
@@ -249,46 +269,41 @@
   font-size: 0.9em;
   margin-top: 2px;
 }
+
 .more-events:hover {
   text-decoration: underline;
 }
 
-/* Відповідно до стилю .event-item у календарі */
 .events-list {
   margin-top: 1rem;
 }
+
 .events-list .event-item {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
   cursor: pointer;
 }
+
 .events-list .event-item:last-child {
   margin-bottom: 0;
 }
+
 .events-list .event-item label {
   margin-right: 0.5rem;
 }
+
 .events-list .event-item .event-link {
   color: #0f0e0f;
   text-decoration: none;
 }
+
 .events-list .event-item .event-link:hover {
   text-decoration: underline;
 }
+
 .calendar.modal-window h3 {
   text-align: center;
-}
-.link-button {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #007bff;
-  cursor: pointer;
-  text-decoration: underline;
-}
-.link-button:hover {
-  opacity: 0.8;
 }
 
 .input-error {

@@ -9,6 +9,7 @@ import PetPage from './pages/PetPage';
 import CalendarPage from './pages/CalendarPage';
 import JournalPage from './pages/JournalPage';
 import PartnersPage from './pages/PartnersPage';
+import ForumPage from './pages/ForumPage';
 
 function App() {
   return (
@@ -48,6 +49,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <PartnersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/forum"
+            element={
+              <ProtectedRoute>
+                <ForumPage />
               </ProtectedRoute>
             }
           />

@@ -74,7 +74,7 @@
 .btn-add {
   padding: 10px 28px;
   background: #ffc107;
-  color: #000;
+  color: #0f0e0f;
   font-size: 1rem;
   font-weight: bold;
   border: none;
@@ -97,6 +97,7 @@
   justify-content: center;
   z-index: 1000;
 }
+
 .journal.modal-window {
   position: relative;
   background-color: #fff;
@@ -106,21 +107,25 @@
   max-width: 480px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
+
 .journal.modal-window h2 {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
+
 .journal-form {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.5rem;
 }
+
 .journal-form label {
   margin-bottom: 0.3rem;
   color: #0f0e0f;
 }
+
 .journal-form input,
 .journal-form textarea,
 .journal-form select {
@@ -132,6 +137,7 @@
   outline: none;
   box-sizing: border-box;
 }
+
 .journal-form.checkbox-group .checkbox-label {
   display: inline-flex;
   align-items: center;
@@ -146,6 +152,7 @@
   gap: 0.5rem;
   margin-top: 1rem;
 }
+
 .journal.modal-buttons button {
   text-align: center;
   padding: 8px 16px;
@@ -165,6 +172,7 @@
   color: #d32f2f;
   background-color: #fff;
 }
+
 .journal.modal-buttons button[type='submit']:hover {
   background-color: #0f41d6;
 }
@@ -206,7 +214,6 @@
   margin: 16px 0;
 }
 
-/* Селект-фільтр зліва */
 .journal-filter {
   padding: 8px 12px;
   font-size: 1rem;

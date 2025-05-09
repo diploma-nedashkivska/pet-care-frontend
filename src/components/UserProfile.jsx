@@ -96,7 +96,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
         <button className="user close-btn" onClick={onClose}>
           <img src="/icons/close.png" alt="Закрити" />
         </button>
-        <h2>Редагувати профіль</h2>
+        <h2>{t('edit-profile')}</h2>
         <div className="user modal-content">
           <div className="user avatar-column">
             <img
