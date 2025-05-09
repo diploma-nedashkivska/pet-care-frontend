@@ -67,8 +67,11 @@
 }
 
 .journal-table td:hover {
-  background: #f9f9f9;
-  cursor: pointer;
+  background: none;
+}
+
+.journal-table tbody tr:hover td {
+  background-color: #eff5fa;
 }
 
 .btn-add {
