@@ -25,6 +25,12 @@
   margin-top: 10px;
 }
 
+.post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .forum-list {
   flex: 2;
 }
@@ -41,7 +47,7 @@
   position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 0px 12px 0px 12px;
+  padding: 0px 12px 5px 12px;
   margin-bottom: 12px;
   max-width: 560px;
 }
@@ -67,11 +73,58 @@
   height: 25px;
   border-radius: 50%;
   object-fit: cover;
+  margin: 8px 0;
 }
 
-.forum-post img {
-  max-width: 100%;
+.post-input-img {
+  max-width: 300px;
+  height: auto;
   margin: 8px 0;
+}
+
+.post-form .custom-file-input {
+  position: relative;
+  display: flex;
+  align-self: flex-start;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 0 0 0;
+  background: #fafafa;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.post-form .custom-file-input input[type='file'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.post-form .custom-file-input button {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.8rem;
+  flex: 0 0 auto;
+  margin-left: 0;
+  font-weight: normal;
+}
+
+.post-form .custom-file-input span {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #666;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .post-actions {
@@ -105,8 +158,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: -10px;
-  margin-bottom: -10px;
+  margin-top: -5px;
+  margin-bottom: 0px;
 }
 
 .comment-author-block {
@@ -125,6 +178,7 @@
   color: #555;
   font-size: 0.85rem;
 }
+
 .post-form textarea {
   width: 95%;
   height: 80px;
@@ -134,7 +188,7 @@
   outline: none;
 }
 
-.post-form button {
+.post-form button.submit-post-btn {
   margin-top: 8px;
   margin-right: 2px;
   padding: 8px 16px;
@@ -145,6 +199,7 @@
   border: none;
   border-radius: 4px;
   transition: background 0.2s;
+  align-self: flex-end;
 }
 
 .post-form button:hover {
@@ -171,11 +226,13 @@
   border-radius: 8px;
   margin-bottom: 12px;
 }
+
 .comment-form {
   display: flex;
   gap: 8px;
   margin-bottom: 12px;
 }
+
 .comment-form textarea {
   flex: 1;
   min-height: 30px;
@@ -184,6 +241,7 @@
   border-radius: 4px;
   outline: none;
 }
+
 .comment-form button {
   margin: auto;
   height: 30px;
@@ -201,9 +259,11 @@
 .comment-form button:hover {
   background: #e6ac00;
 }
+
 .comments-list {
   list-style: none;
 }
+
 .comments-list .post-comment {
   background: #fff;
   border: 1px solid #e0e0e0;
@@ -215,9 +275,11 @@
   flex-direction: column;
   gap: 8px;
 }
+
 .comments-list .post-comment:last-child {
   margin-bottom: 0;
 }
+
 .post-comment .comment-avatar {
   width: 20px;
   height: 20px;
@@ -225,14 +287,17 @@
   object-fit: cover;
   flex-shrink: 0;
 }
+
 .post-comment .comment-body {
   flex: 1;
 }
+
 .comment-author {
   font-weight: 600;
   color: #555;
   font-size: 0.85rem;
 }
+
 .comment-text {
   font-size: 0.93rem;
   line-height: 1.2;
@@ -242,6 +307,7 @@
   word-break: break-word;
   margin: 0;
 }
+
 .comment-meta {
   font-size: 0.75rem;
   color: #555;
@@ -257,6 +323,7 @@
   opacity: 0.6;
   transition: opacity 0.2s;
 }
+
 .delete-post-btn:hover {
   opacity: 1;
 }
@@ -267,6 +334,7 @@
   opacity: 0.6;
   transition: opacity 0.2s;
 }
+
 .delete-post-btn:hover img {
   opacity: 1;
 }

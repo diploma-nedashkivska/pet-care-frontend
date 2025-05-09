@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
 import '../styles/ForumStyle.css';
@@ -14,24 +14,45 @@ export default function ForumPage() {
   const [commentTexts, setCommentTexts] = useState({});
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
+  const fullName = user?.full_name;
 
-  useEffect(() => {
+  const fetchPosts = useCallback(() => {
     axios
       .get('http://localhost:8000/forum/', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setPosts(res.data))
       .catch(console.error);
-  }, []);
+  }, [token]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  useEffect(() => {
+    if (!fullName) return;
+    fetchPosts();
+  }, [fullName, fetchPosts]);
+
+  const handleFileChange = (e) => {
+    setNewFile(e.target.files[0] || null);
+  };
 
   const createPost = () => {
-    const data = { post_text: newText };
+    const formData = new FormData();
+    formData.append('post_text', newText);
+    if (newFile) formData.append('photo', newFile);
+
     axios
-      .post('http://localhost:8000/forum/', data, { headers: { Authorization: `Bearer ${token}` } })
+      .post('http://localhost:8000/forum/', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setPosts([res.data, ...posts]);
-        setNewText(''); // <-- очищаємо поле після відправки
-        setNewFile(null); // <-- якщо використовуєте завантажений файл
+        setNewText('');
+        setNewFile(null);
       })
       .catch(console.error);
   };
@@ -135,7 +156,9 @@ export default function ForumPage() {
                 </span>
               </div>
               <p>{post.post_text}</p>
-              {post.photo_url && <img src={post.photo_url} alt="attachment" />}
+              {post.photo_url && (
+                <img className="post-input-img" src={post.photo_url} alt="attachment" />
+              )}
 
               <div className="post-actions">
                 <button onClick={() => toggleLike(post.id)}>
@@ -152,17 +175,17 @@ export default function ForumPage() {
                   {post.comments.length}
                 </button>
 
-                {/* Смітник */}
-                <button
-                  className="delete-post-btn"
-                  onClick={() => handleDeleteClick(post.id)}
-                  title="Видалити допис"
-                >
-                  <img src="/icons/page-4-delete.png" alt="delete" />
-                </button>
+                {post.user_full === user.full_name && (
+                  <button
+                    className="delete-post-btn"
+                    onClick={() => handleDeleteClick(post.id)}
+                    title="Видалити допис"
+                  >
+                    <img src="/icons/page-4-delete.png" alt="delete" />
+                  </button>
+                )}
               </div>
 
-              {/* Блок розгорнутих коментарів */}
               {expanded[post.id] && (
                 <div className="comments-section">
                   <div className="comment-form">
@@ -214,7 +237,14 @@ export default function ForumPage() {
               onChange={(e) => setNewText(e.target.value)}
               placeholder="Ваш допис..."
             />
-            <button onClick={createPost}>Відправити</button>
+            <div className="custom-file-input">
+              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <button type="button">Оберіть файл</button>
+              <span>{newFile?.name || 'Файл не обрано'}</span>
+            </div>
+            <button className="submit-post-btn" onClick={createPost}>
+              Відправити
+            </button>
           </div>
         </div>
       </div>
