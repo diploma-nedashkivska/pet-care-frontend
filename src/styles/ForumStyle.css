@@ -113,6 +113,7 @@
   flex: 0 0 auto;
   margin-left: 0;
   font-weight: normal;
+  cursor: pointer;
 }
 
 .post-form .custom-file-input span {
@@ -200,6 +201,7 @@
   border-radius: 4px;
   transition: background 0.2s;
   align-self: flex-end;
+  cursor: pointer;
 }
 
 .post-form button:hover {
@@ -254,6 +256,7 @@
   font-weight: bold;
   white-space: nowrap;
   transition: background 0.2s;
+  cursor: pointer;
 }
 
 .comment-form button:hover {

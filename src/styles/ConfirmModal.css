@@ -39,6 +39,7 @@
 .cm.btn-cancel {
   border: 1px solid #bbb;
   background: #fff;
+  cursor: pointer;
 }
 
 .cm.btn-cancel:hover {
@@ -49,6 +50,7 @@
   background: #e63946;
   color: #fff;
   border: none;
+  cursor: pointer;
 }
 
 .cm.btn-confirm:hover {

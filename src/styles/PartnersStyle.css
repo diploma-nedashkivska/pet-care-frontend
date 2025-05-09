@@ -76,6 +76,7 @@
   color: inherit;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .partner-photo {
@@ -205,6 +206,7 @@
   border: none;
   padding: 0;
   z-index: 10;
+  cursor: pointer;
 }
 
 .watch-toggle-btn .img-like {
