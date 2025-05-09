@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CalendarStyle.css';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const EventSchema = (t) =>
   z.object({
@@ -99,6 +100,7 @@ export default function CalendarModal({
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
+      toast.error(t('calendar-validation-error'));
       return;
     }
     setErrors({});

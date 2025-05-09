@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
 import Header from '../components/Header';
@@ -6,6 +6,7 @@ import JournalModal from '../components/JournalModal';
 import ConfirmModal from '../components/ConfirmModal';
 import '../styles/JournalStyle.css';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 export default function JournalPage() {
   const { token } = useAuth();
@@ -27,21 +28,27 @@ export default function JournalPage() {
     { value: 'TRAINING', label: t('training') },
     { value: 'OTHER', label: t('other') },
   ];
+  const fetchEntries = useCallback(() => {
+    axios
+      .get('http://localhost:8000/journal/')
+      .then((res) => setEntries(res.data.payload || []))
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('journal-fetch-error'));
+      });
+  }, [t]);
+
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     axios
       .get('http://localhost:8000/pets/')
       .then((res) => setPets(res.data.payload || []))
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('pets-fetch-error'));
+      });
     fetchEntries();
-  }, [token]);
-
-  const fetchEntries = () => {
-    axios
-      .get('http://localhost:8000/journal/')
-      .then((res) => setEntries(res.data.payload || []))
-      .catch(console.error);
-  };
+  }, [token, fetchEntries, t]);
 
   const handleAdd = () => {
     setSelectedEntry(null);
@@ -61,10 +68,14 @@ export default function JournalPage() {
 
     req
       .then(() => {
+        toast.success(form.id ? t('journal-update-success') : t('journal-add-success'));
         setModalOpen(false);
         fetchEntries();
       })
-      .catch((err) => console.error(err.response?.data));
+      .catch((err) => {
+        console.error(err.response?.data);
+        toast.error(t('journal-save-error'));
+      });
   };
 
   const openConfirm = (id) => {
@@ -75,7 +86,14 @@ export default function JournalPage() {
   const handleConfirmDelete = () => {
     axios
       .delete(`http://localhost:8000/journal/${deleteId}/`)
-      .then(() => fetchEntries())
+      .then(() => {
+        toast.success(t('journal-delete-success'));
+        fetchEntries();
+      })
+      .catch((err) => {
+        console.error(err.response?.data);
+        toast.error(t('journal-delete-error'));
+      })
       .finally(() => {
         setConfirmOpen(false);
         setDeleteId(null);

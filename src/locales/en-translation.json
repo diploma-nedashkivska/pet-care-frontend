@@ -141,5 +141,23 @@
   "pet-add-success": "Pet successfully added",
   "pet-save-error": "Error saving pet",
   "pet-delete-success": "Pet successfully deleted",
-  "pet-delete-error": "Error deleting pet"
+  "pet-delete-error": "Error deleting pet",
+
+  "calendar-fetch-error": "Failed to load events",
+  "toggle-success": "Event status updated",
+  "toggle-error": "Failed to update status",
+  "event-add-success": "Event added successfully",
+  "event-update-success": "Event updated successfully",
+  "event-save-error": "Error saving event",
+  "event-delete-success": "Event deleted successfully",
+  "event-delete-error": "Error deleting event",
+  "calendar-validation-error": "Please correct the errors in the form",
+
+  "journal-fetch-error": "Failed to load journal entries",
+  "journal-add-success": "Entry added successfully",
+  "journal-update-success": "Entry updated successfully",
+  "journal-save-error": "Error saving entry",
+  "journal-delete-success": "Entry deleted successfully",
+  "journal-delete-error": "Error deleting entry",
+  "journal-validation-error": "Please correct the errors in the form"
 }

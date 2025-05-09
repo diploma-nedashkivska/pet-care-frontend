@@ -7,6 +7,7 @@ import '../styles/CalendarStyle.css';
 import Header from '../components/Header';
 import EventsListModal from '../components/EventsListModal';
 import ConfirmModal from '../components/ConfirmModal';
+import { toast } from 'react-toastify';
 
 function formatDateLocal(date) {
   const y = date.getFullYear();
@@ -77,6 +78,7 @@ export default function CalendarPage() {
         setListEvents((le) =>
           le.map((e) => (e.id === evt.id ? { ...e, completed: !evt.completed } : e)),
         );
+        toast.success(t('toggle-success'));
         if (!evt.completed) {
           axios
             .post(
@@ -94,6 +96,7 @@ export default function CalendarPage() {
       })
       .catch((err) => {
         console.error('Toggle error:', err.response?.status, err.response?.data);
+        toast.error(t('toggle-error'));
       });
   };
 
@@ -103,9 +106,12 @@ export default function CalendarPage() {
       axios
         .get('http://localhost:8000/pets/')
         .then((res) => setPets(res.data.payload || []))
-        .catch(console.error);
+        .catch((err) => {
+          console.error(err);
+          toast.error(t('pets-fetch-error'));
+        });
     }
-  }, [token]);
+  }, [token, t]);
 
   useEffect(() => {
     const year = currentDate.getFullYear();
@@ -117,8 +123,11 @@ export default function CalendarPage() {
         params: { year, month: month + 1 },
       })
       .then((res) => setEvents(res.data.payload || []))
-      .catch(console.error);
-  }, [currentDate]);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('calendar-fetch-error'));
+      });
+  }, [currentDate, token, t]);
 
   const handlePrev = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1));
   const handleNext = () => setCurrentDate((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1));
@@ -151,6 +160,7 @@ export default function CalendarPage() {
 
     req
       .then(() => {
+        toast.success(data.id ? t('event-update-success') : t('event-add-success'));
         setModalOpen(false);
         const y = currentDate.getFullYear();
         const m = currentDate.getMonth();
@@ -159,7 +169,10 @@ export default function CalendarPage() {
         });
       })
       .then((res) => setEvents(res.data.payload || []))
-      .catch((err) => console.error('Validation errors:', err.response?.data));
+      .catch((err) => {
+        console.error('Validation errors:', err.response?.data);
+        toast.error(t('event-save-error'));
+      });
   };
 
   const openConfirm = (id) => {
@@ -182,8 +195,14 @@ export default function CalendarPage() {
         .delete(`http://localhost:8000/calendar/${deleteId}/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
-        .then(() => refreshEvents())
-        .catch(console.error)
+        .then(() => {
+          toast.success(t('event-delete-success'));
+          refreshEvents();
+        })
+        .catch((err) => {
+          console.error('Delete error:', err.response?.data);
+          toast.error(t('event-delete-error'));
+        })
         .finally(() => {
           setConfirmOpen(false);
           setDeleteId(null);

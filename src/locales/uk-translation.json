@@ -141,5 +141,23 @@
   "pet-add-success": "Тваринку успішно додано",
   "pet-save-error": "Помилка збереження тваринки",
   "pet-delete-success": "Тваринку успішно видалено",
-  "pet-delete-error": "Помилка видалення тваринки"
+  "pet-delete-error": "Помилка видалення тваринки",
+
+  "calendar-fetch-error": "Не вдалося завантажити події",
+  "toggle-success": "Статус події оновлено",
+  "toggle-error": "Не вдалося змінити статус",
+  "event-add-success": "Подію успішно додано",
+  "event-update-success": "Подію успішно оновлено",
+  "event-save-error": "Помилка збереження події",
+  "event-delete-success": "Подію успішно видалено",
+  "event-delete-error": "Помилка видалення події",
+  "calendar-validation-error": "Будь ласка, виправте помилки у формі",
+
+  "journal-fetch-error": "Не вдалося завантажити записи журналу",
+  "journal-add-success": "Запис успішно додано",
+  "journal-update-success": "Запис успішно оновлено",
+  "journal-save-error": "Помилка збереження запису",
+  "journal-delete-success": "Запис успішно видалено",
+  "journal-delete-error": "Помилка видалення запису",
+  "journal-validation-error": "Будь ласка, виправте помилки у формі"
 }
