@@ -121,5 +121,25 @@
 
   "error-signup-fullName": "Enter your name",
   "error-signup-email": "Invalid email format",
-  "error-signup-password": "At least 6 characters"
+  "error-signup-password": "At least 6 characters",
+
+  "signup-signin-validation": "Please correct the errors in the form",
+  "signup-success": "Registration successful!",
+  "signup-error": "An unexpected error occurred",
+  "signup-error2": "Error",
+
+  "signin-success": "Successfully signed in!",
+  "signin-error": "Sign-in error",
+
+  "language-changed": "Language changed",
+  "profile-updated": "Profile successfully updated",
+  "signout-success": "You have successfully signed out",
+  "profile-update-error": "Profile update error",
+  "profile-fetch-error": "Failed to load profile",
+  "pets-fetch-error": "Failed to load pets list",
+  "pet-update-success": "Pet successfully updated",
+  "pet-add-success": "Pet successfully added",
+  "pet-save-error": "Error saving pet",
+  "pet-delete-success": "Pet successfully deleted",
+  "pet-delete-error": "Error deleting pet"
 }

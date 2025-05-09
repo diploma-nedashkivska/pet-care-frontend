@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PetStyle.css';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
+import { toast } from 'react-toastify';
 
 const PetSchema = (t) =>
   z.object({
@@ -73,6 +74,7 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
+      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});

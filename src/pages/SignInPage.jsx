@@ -2,12 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import '../styles/SignInStyle.css';
 import SignInForm from '../components/SignInForm';
+import { toast } from 'react-toastify';
 
 export default function SignInPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
+    toast.info(t('language-changed'));
   };
 
   return (

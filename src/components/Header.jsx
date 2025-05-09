@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/Header.css';
 import UserProfile from './UserProfile';
+import { toast } from 'react-toastify';
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -12,10 +13,12 @@ export default function Header() {
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
+    toast.info(t('language-changed'));
   };
 
   const handleUpdate = (updatedUser) => {
     setUser(updatedUser);
+    toast.success(t('profile-updated'));
   };
 
   if (!user) return null;

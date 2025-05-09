@@ -10,6 +10,8 @@ import CalendarPage from './pages/CalendarPage';
 import JournalPage from './pages/JournalPage';
 import PartnersPage from './pages/PartnersPage';
 import ForumPage from './pages/ForumPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -62,6 +64,19 @@ function App() {
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </ErrorBoundary>
     </BrowserRouter>
   );

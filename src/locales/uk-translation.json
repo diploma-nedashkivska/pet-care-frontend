@@ -121,5 +121,25 @@
 
   "error-signup-fullName": "Введіть ім’я",
   "error-signup-email": "Неправильний формат пошти",
-  "error-signup-password": "Не менше 6 символів"
+  "error-signup-password": "Не менше 6 символів",
+
+  "signup-signin-validation": "Будь ласка, виправте помилки у формі",
+  "signup-success": "Реєстрація успішна!",
+  "signup-error": "Сталася непередбачувана помилка",
+  "signup-error2": "Помилка",
+
+  "signin-success": "Вхід успішний!",
+  "signin-error": "Помилка входу",
+
+  "language-changed": "Мову змінено",
+  "profile-updated": "Профіль успішно оновлено",
+  "signout-success": "Ви вийшли з акаунту",
+  "profile-update-error": "Помилка оновлення",
+  "profile-fetch-error": "Не вдалося завантажити профіль",
+  "pets-fetch-error": "Не вдалося завантажити список тварин",
+  "pet-update-success": "Тваринку успішно оновлено",
+  "pet-add-success": "Тваринку успішно додано",
+  "pet-save-error": "Помилка збереження тваринки",
+  "pet-delete-success": "Тваринку успішно видалено",
+  "pet-delete-error": "Помилка видалення тваринки"
 }

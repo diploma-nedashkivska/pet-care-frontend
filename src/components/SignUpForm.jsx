@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { z } from 'zod';
 import '../styles/SignUpStyle.css';
+import { toast } from 'react-toastify';
 
 const SignUpSchema = (t) =>
   z.object({
@@ -37,6 +38,7 @@ export default function SignUpForm() {
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
+      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});
@@ -51,11 +53,14 @@ export default function SignUpForm() {
       await axios.post('http://localhost:8000/signup/', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      navigate('/signin');
+      toast.success(t('signup-success'));
+      setTimeout(() => navigate('/signin'), 1500);
     } catch (error) {
-      if (error.response) {
-        alert(JSON.stringify(error.response.data));
+      if (error.response?.data) {
+        const msg = error.response.data.message || JSON.stringify(error.response.data);
+        toast.error(`${t('signup-error2')}: ${msg}`);
       } else {
+        toast.error(t('signup-error'));
         console.error(error);
       }
     }
