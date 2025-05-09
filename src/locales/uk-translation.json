@@ -168,5 +168,8 @@
   "forum-delete-error": "Помилка видалення допису",
   "forum-like-error": "Не вдалося оновити лайк",
   "forum-comment-success": "Коментар успішно додано",
-  "forum-comment-error": "Помилка додавання коментаря"
+  "forum-comment-error": "Помилка додавання коментаря",
+
+  "partners-fetch-error": "Не вдалося завантажити список партнерів",
+  "watchlist-fetch-error": "Не вдалося завантажити список обраного"
 }

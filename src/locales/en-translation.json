@@ -168,5 +168,8 @@
   "forum-delete-error": "Error deleting post",
   "forum-like-error": "Failed to update like",
   "forum-comment-success": "Comment added successfully",
-  "forum-comment-error": "Error adding comment"
+  "forum-comment-error": "Error adding comment",
+
+  "partners-fetch-error": "Failed to load partners list",
+  "watchlist-fetch-error": "Failed to load watchlist"
 }
