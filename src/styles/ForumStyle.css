@@ -1,7 +1,28 @@
+.page-container {
+  padding: 20px 170px 22px 170px;
+}
+
 .forum-container {
+  padding: 0 170px 0 170px;
   display: flex;
-  padding: 20px;
-  gap: 20px;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.forum.icon-h1 {
+  width: 40px;
+  height: 40px;
+}
+
+.forum.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 35px;
+}
+
+.page-container hr {
+  margin-top: 10px;
 }
 
 .forum-list {
@@ -11,23 +32,41 @@
 .forum-sidebar {
   flex: 1;
   background: #fafafa;
+  border: 1px solid #ddd;
   padding: 16px;
   border-radius: 8px;
 }
 
 .forum-post {
-  position: relative; 
+  position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
+  padding: 0px 12px 0px 12px;
+  margin-bottom: 12px;
+  max-width: 560px;
 }
 
 .post-header {
-  display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
   color: #555;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .forum-post img {
@@ -37,45 +76,79 @@
 
 .post-actions {
   display: flex;
+  align-items: center;
+  width: 100%;
   gap: 12px;
   margin-top: 8px;
 }
 
 .post-actions button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  padding: 4px;
 }
 
 .post-comment {
-  margin-left: 16px;
-  border-left: 2px solid #ddd;
-  padding-left: 8px;
-  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  max-width: 560px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.comment-author-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .post-form strong {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 3px;
+  color: #0f0e0f;
 }
 
+.post-header span {
+  color: #555;
+  font-size: 0.85rem;
+}
 .post-form textarea {
-  width: 100%;
-  height: 100px;
+  width: 95%;
+  height: 80px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none;
 }
 
 .post-form button {
   margin-top: 8px;
+  margin-right: 2px;
   padding: 8px 16px;
-  background: #0d3bc3;
-  color: #fff;
+  background: #ffc107;
+  color: #0f0e0f;
+  font-size: 0.8rem;
+  font-weight: bold;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.post-form button:hover {
+  background: #e6ac00;
 }
 
 .img-icon {
@@ -83,15 +156,111 @@
   height: 20px;
 }
 
+.forum-post p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+}
+
+.comments-section {
+  margin-top: 5px;
+  padding: 12px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.comment-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.comment-form textarea {
+  flex: 1;
+  min-height: 30px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+.comment-form button {
+  margin: auto;
+  height: 30px;
+  padding: 0 16px;
+  background: #ffc107;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.comment-form button:hover {
+  background: #e6ac00;
+}
+.comments-list {
+  list-style: none;
+}
+.comments-list .post-comment {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 5px;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comments-list .post-comment:last-child {
+  margin-bottom: 0;
+}
+.post-comment .comment-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.post-comment .comment-body {
+  flex: 1;
+}
+.comment-author {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.85rem;
+}
+.comment-text {
+  font-size: 0.93rem;
+  line-height: 1.2;
+  color: #333;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: 0;
+}
+.comment-meta {
+  font-size: 0.75rem;
+  color: #555;
+}
+
 .delete-post-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: transparent;
+  position: static;
+  margin-left: auto;
+  background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
+.delete-post-btn:hover {
+  opacity: 1;
+}
+
 .delete-post-btn img {
   width: 20px;
   height: 20px;
