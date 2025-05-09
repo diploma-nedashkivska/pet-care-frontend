@@ -5,20 +5,6 @@ import '../styles/PartnersStyle.css';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 
-const PARTNER_TYPE = [
-  { value: '', label: 'Усі' },
-  { value: 'CLINIC', label: 'Ветеринарні клініки' },
-  { value: 'GROOMING_SALON', label: 'Грумінг-салони' },
-  { value: 'PET_STORE', label: 'Зоомагазини' },
-];
-
-const RATING_OPTIONS = [
-  { value: '', label: 'Усі' },
-  { value: 'rating-good', label: 'Хороший' },
-  { value: 'rating-ok', label: 'Середній' },
-  { value: 'rating-bad', label: 'Поганий' },
-];
-
 export default function PartnersPage() {
   const { token } = useAuth();
   const { t } = useTranslation();
@@ -26,6 +12,21 @@ export default function PartnersPage() {
   const [filterType, setFilterType] = useState('');
   const [search, setSearch] = useState('');
   const [ratingCategory, setRatingCategory] = useState('');
+
+  const PARTNER_TYPE = [
+    { value: '', label: t('all') },
+    { value: 'CLINIC', label: t('veterinary-clinics') },
+    { value: 'GROOMING_SALON', label: t('grooming-salons') },
+    { value: 'PET_STORE', label: t('pet-stores') },
+  ];
+
+  const RATING_OPTIONS = [
+    { value: '', label: t('all') },
+    { value: 'rating-good', label: t('good') },
+    { value: 'rating-ok', label: t('ok') },
+    { value: 'rating-bad', label: t('bad') },
+  ];
+
   const handleError = (e) => {
     e.target.src = '/icons/pet-default.png';
   };
@@ -61,13 +62,13 @@ export default function PartnersPage() {
             className="partners icon-h1"
             onError={handleError}
           />
-          <span>Сайти-партнери</span>
+          <span>{t('partners-page')}</span>
         </div>
         <hr />
         <div className="partners-header">
           <div className="partners-header-filters">
             <label className="partners-filter-label">
-              Тип:&nbsp;
+              {t('type')}:&nbsp;
               <select
                 className="partners-filter"
                 value={filterType}
@@ -81,7 +82,7 @@ export default function PartnersPage() {
               </select>
             </label>
             <label className="partners-filter-label">
-              Рейтинг:&nbsp;
+              {t('rating')}:&nbsp;
               <select
                 className="partners-filter"
                 value={ratingCategory}

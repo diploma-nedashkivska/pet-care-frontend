@@ -4,8 +4,10 @@ import { useAuth } from '../components/AuthContext';
 import '../styles/ForumStyle.css';
 import Header from '../components/Header';
 import ConfirmModal from '../components/ConfirmModal';
+import { useTranslation } from 'react-i18next';
 
 export default function ForumPage() {
+  const { t } = useTranslation();
   const { token, user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [newText, setNewText] = useState('');
@@ -128,7 +130,7 @@ export default function ForumPage() {
       <div className="page-container">
         <div className="forum title-with-icon">
           <img src="/icons/page-4-forum.png" alt="forum" className="forum icon-h1" />
-          <span>Форум</span>
+          <span>{t('forum')}</span>
         </div>
         <hr />
       </div>
@@ -190,11 +192,11 @@ export default function ForumPage() {
                 <div className="comments-section">
                   <div className="comment-form">
                     <textarea
-                      placeholder="Ваш коментар..."
+                      placeholder={t('commentPlaceholder')}
                       value={commentTexts[post.id] || ''}
                       onChange={(e) => handleCommentChange(post.id, e.target.value)}
                     />
-                    <button onClick={() => submitComment(post.id)}>Коментувати</button>
+                    <button onClick={() => submitComment(post.id)}>{t('comment-button')}</button>
                   </div>
 
                   <ul className="comments-list">
@@ -235,15 +237,15 @@ export default function ForumPage() {
             <textarea
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
-              placeholder="Ваш допис..."
+              placeholder={t('postPlaceholder')}
             />
             <div className="custom-file-input">
               <input type="file" accept="image/*" onChange={handleFileChange} />
-              <button type="button">Оберіть файл</button>
-              <span>{newFile?.name || 'Файл не обрано'}</span>
+              <button type="button">{t('chooseFile')}</button>
+              <span>{newFile?.name || t('noFileChosen')}</span>
             </div>
             <button className="submit-post-btn" onClick={createPost}>
-              Відправити
+              {t('send-button')}
             </button>
           </div>
         </div>
@@ -251,7 +253,7 @@ export default function ForumPage() {
 
       <ConfirmModal
         isOpen={confirmOpen}
-        message="Ви справді хочете видалити цей допис?"
+        message={t('confirm-delete-post')}
         onConfirm={() => deletePost(postToDelete)}
         onCancel={() => {
           setConfirmOpen(false);
