@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
 import NotFoundPage from './pages/NotFoundPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import PetPage from './pages/PetPage';
@@ -18,9 +19,30 @@ function App() {
     <BrowserRouter>
       <ErrorBoundary>
         <Routes>
-          <Route path="/" element={<SignInPage />} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route
+            path="/"
+            element={
+              <PublicRoute>
+                <SignInPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignInPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUpPage />
+              </PublicRoute>
+            }
+          />
           <Route path="/error" element={<NotFoundPage />} />
           <Route
             path="/pets"
