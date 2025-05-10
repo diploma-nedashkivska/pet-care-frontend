@@ -38,7 +38,6 @@ export default function SignUpForm() {
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});
@@ -58,7 +57,7 @@ export default function SignUpForm() {
     } catch (error) {
       if (error.response?.data) {
         const msg = error.response.data.message || JSON.stringify(error.response.data);
-        toast.error(`${t('signup-error2')}: ${msg}`);
+        toast.error(`${t('signup-error')}: ${msg}`);
       } else {
         toast.error(t('signup-error'));
         console.error(error);

@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import '../styles/CalendarStyle.css';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 const EventSchema = (t) =>
   z.object({
     pet: z.string().min(1, t('selectPetPlaceholder')),
     event_title: z.string().min(1, t('titlePlaceholder')),
+    start_date: z.preprocess(
+      (val) => (typeof val === 'string' && val !== '' ? new Date(val) : val),
+      z.date({ required_error: ' ' }),
+    ),
   });
 
 function formatDateLocal(date) {
@@ -100,7 +103,6 @@ export default function CalendarModal({
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('calendar-validation-error'));
       return;
     }
     setErrors({});
@@ -171,7 +173,8 @@ export default function CalendarModal({
               name="start_date"
               value={form.start_date}
               onChange={handleChange}
-              required
+              onFocus={() => clearError('start_date')}
+              className={errors.start_date ? 'input-error' : ''}
             />
           </div>
 

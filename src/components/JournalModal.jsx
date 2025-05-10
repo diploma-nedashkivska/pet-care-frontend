@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import '../styles/JournalStyle.css';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 const JournalSchema = (t) =>
   z.object({
@@ -66,7 +65,6 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
         fieldErrors[i.path[0]] = i.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('journal-validation-error'));
       return;
     }
     onSave(form);

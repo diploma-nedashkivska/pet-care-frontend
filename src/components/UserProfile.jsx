@@ -74,7 +74,6 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});
@@ -162,7 +161,6 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
               onClick={() => {
                 onClose();
                 logout();
-                toast.success(t('signout-success'));
               }}
             >
               {t('signout-button')}

@@ -13,7 +13,6 @@ export default function Header() {
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
-    toast.info(t('language-changed'));
   };
 
   const handleUpdate = (updatedUser) => {

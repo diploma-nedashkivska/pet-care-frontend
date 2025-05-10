@@ -32,7 +32,6 @@ export default function SignInForm() {
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});

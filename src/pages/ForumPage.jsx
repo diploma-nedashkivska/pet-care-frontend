@@ -6,6 +6,21 @@ import Header from '../components/Header';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { z } from 'zod';
+
+const PostSchema = z
+  .object({
+    post_text: z.string(),
+    photo: z.any().nullable(),
+  })
+  .refine((data) => data.post_text.trim() !== '' || data.photo != null, {
+    message: '',
+    path: ['post_text'],
+  });
+
+const CommentSchema = z.object({
+  comment_text: z.string().min(1, ''),
+});
 
 export default function ForumPage() {
   const { t } = useTranslation();
@@ -13,6 +28,8 @@ export default function ForumPage() {
   const [posts, setPosts] = useState([]);
   const [newText, setNewText] = useState('');
   const [newFile, setNewFile] = useState(null);
+  const [postError, setPostError] = useState(false);
+  const [commentErrors, setCommentErrors] = useState({});
   const [expanded, setExpanded] = useState({});
   const [commentTexts, setCommentTexts] = useState({});
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -45,6 +62,17 @@ export default function ForumPage() {
   };
 
   const createPost = () => {
+    const schema = PostSchema(t);
+    const result = schema.safeParse({
+      post_text: newText,
+      photo: newFile,
+    });
+    if (!result.success) {
+      setPostError(true);
+      return;
+    }
+    setPostError(false);
+
     const formData = new FormData();
     formData.append('post_text', newText);
     if (newFile) formData.append('photo', newFile);
@@ -120,7 +148,17 @@ export default function ForumPage() {
   };
 
   const submitComment = (postId) => {
-    const text = commentTexts[postId];
+    const text = commentTexts[postId] || '';
+    const schema = CommentSchema(t);
+    const result = schema.safeParse({
+      comment_text: text,
+    });
+    if (!result.success) {
+      setCommentErrors((prev) => ({ ...prev, [postId]: true }));
+      return;
+    }
+    setCommentErrors((prev) => ({ ...prev, [postId]: false }));
+
     if (!text) return;
 
     axios
@@ -134,7 +172,6 @@ export default function ForumPage() {
           posts.map((p) => (p.id === postId ? { ...p, comments: [...p.comments, res.data] } : p)),
         );
         setCommentTexts((prev) => ({ ...prev, [postId]: '' }));
-        toast.success(t('forum-comment-success'));
       })
       .catch((err) => {
         console.error(err);
@@ -215,6 +252,8 @@ export default function ForumPage() {
                       placeholder={t('commentPlaceholder')}
                       value={commentTexts[post.id] || ''}
                       onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                      onFocus={() => setCommentErrors((prev) => ({ ...prev, [post.id]: false }))}
+                      className={commentErrors[post.id] ? 'input-error' : ''}
                     />
                     <button onClick={() => submitComment(post.id)}>{t('comment-button')}</button>
                   </div>
@@ -256,11 +295,21 @@ export default function ForumPage() {
           <div className="post-form">
             <textarea
               value={newText}
-              onChange={(e) => setNewText(e.target.value)}
+              onChange={(e) => {
+                setNewText(e.target.value);
+                setPostError(false);
+              }}
+              onFocus={() => setPostError(false)}
               placeholder={t('postPlaceholder')}
+              className={postError && !newText.trim() ? 'input-error' : ''}
             />
             <div className="custom-file-input">
-              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                onClick={() => setPostError(false)}
+              />
               <button type="button">{t('chooseFile')}</button>
               <span>{newFile?.name || t('noFileChosen')}</span>
             </div>

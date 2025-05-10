@@ -2,13 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/PetStyle.css';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-import { toast } from 'react-toastify';
 
 const PetSchema = (t) =>
   z.object({
     pet_name: z.string().min(1, t('fullNamePlaceholder')),
     breed: z.string().min(1, t('breedPlaceholder')),
-    birthday: z.string().min(1, ''),
+    birthday: z.preprocess(
+      (val) => (typeof val === 'string' && val !== '' ? new Date(val) : val),
+      z
+        .date({
+          required_error: '',
+        })
+        .min(new Date('1950-01-01'), { required_error: '' })
+        .max(new Date(), { required_error: '' }),
+    ),
   });
 
 export default function PetModal({ isOpen, onClose, onSave, initialData }) {
@@ -74,7 +81,6 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
         fieldErrors[issue.path[0]] = issue.message;
       });
       setErrors(fieldErrors);
-      toast.error(t('signup-signin-validation'));
       return;
     }
     setErrors({});
@@ -137,7 +143,6 @@ export default function PetModal({ isOpen, onClose, onSave, initialData }) {
               value={form.birthday}
               onChange={handleChange}
               onFocus={() => clearError('birthday')}
-              placeholder={errors.birthday || ''}
               className={errors.birthday ? 'input-error' : ''}
             />
           </div>
