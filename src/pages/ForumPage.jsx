@@ -62,8 +62,7 @@ export default function ForumPage() {
   };
 
   const createPost = () => {
-    const schema = PostSchema(t);
-    const result = schema.safeParse({
+    const result = PostSchema.safeParse({
       post_text: newText,
       photo: newFile,
     });
@@ -149,8 +148,7 @@ export default function ForumPage() {
 
   const submitComment = (postId) => {
     const text = commentTexts[postId] || '';
-    const schema = CommentSchema(t);
-    const result = schema.safeParse({
+    const result = CommentSchema.safeParse({
       comment_text: text,
     });
     if (!result.success) {
