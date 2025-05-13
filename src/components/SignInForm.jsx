@@ -5,6 +5,7 @@ import { useAuth } from './AuthContext';
 import '../styles/SignInStyle.css';
 import axios from 'axios';
 import { z } from 'zod';
+import { toast } from 'react-toastify';
 
 const SignUpSchema = (t) =>
   z.object({
@@ -13,6 +14,7 @@ const SignUpSchema = (t) =>
   });
 
 export default function SignInForm() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,18 +42,20 @@ export default function SignInForm() {
     try {
       const { data } = await axios.post('http://localhost:8000/signin/', user);
       login(data.payload.accessToken);
-      navigate('/pets');
+      toast.success(t('signin-success'));
+      setTimeout(() => navigate('/pets'), 800);
     } catch (error) {
-      if (error.response) {
-        console.error('Status:', error.response.status);
-        console.error('Response data:', error.response.data);
+      let msg = '';
+      if (error.response?.data) {
+        msg = error.response.data.message || JSON.stringify(error.response.data);
       } else {
-        console.error(error.message);
+        msg = error.message;
       }
+      toast.error(`${t('signin-error')}: ${msg}`);
+      console.error(error);
     }
   };
 
-  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const clearError = (field) => setErrors((prev) => ({ ...prev, [field]: undefined }));
 

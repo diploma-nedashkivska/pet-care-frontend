@@ -25,6 +25,7 @@
   outline: none;
   color: #fafafa;
   height: 100%;
+  cursor: pointer;
 }
 
 .main-nav {
@@ -39,6 +40,7 @@
   padding: 0 1rem;
   line-height: 45px;
   position: relative;
+  cursor: pointer;
 }
 
 .main-nav a::after {
@@ -76,6 +78,7 @@
   border-radius: 50%;
   object-fit: cover;
   align-self: center;
+  cursor: pointer;
 }
 
 /* UserProfile */

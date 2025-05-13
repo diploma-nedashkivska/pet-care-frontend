@@ -52,6 +52,7 @@
   border: none;
   font-size: 1.2rem;
   padding: 4px;
+  cursor: pointer;
 }
 
 .calendar-header .month-nav .month-label {

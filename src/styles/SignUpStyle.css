@@ -98,6 +98,7 @@
   border-radius: 4px;
   font-size: 1rem;
   margin-top: 0.3rem;
+  cursor: pointer;
 }
 
 .signup-button:hover {
@@ -113,6 +114,7 @@
 .signup-no-account a {
   color: #0d3bc3;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .signup-no-account a:hover {
@@ -165,6 +167,7 @@
   cursor: pointer;
   flex: 0 0 auto;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .signup.form-group .custom-file-input span {
@@ -185,6 +188,7 @@
   background: none;
   border: none;
   padding: 0;
+  cursor: pointer;
 }
 
 .signup.toggle-password img {

@@ -36,6 +36,7 @@
   border: none;
   outline: none;
   color: #0f0e0f;
+  cursor: pointer;
 }
 
 /* SignInForm */
@@ -82,6 +83,7 @@
   border-radius: 4px;
   font-size: 1rem;
   margin-top: 1rem;
+  cursor: pointer;
 }
 
 .signin-button:hover {
@@ -97,6 +99,7 @@
 .signin-form .no-account a {
   color: #0d3bc3;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .signin-form .no-account a:hover {
@@ -122,6 +125,7 @@
   background: none;
   border: none;
   padding: 0;
+  cursor: pointer;
 }
 
 .signin-form .toggle-password img {

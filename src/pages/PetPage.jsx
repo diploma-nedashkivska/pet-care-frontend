@@ -1,11 +1,12 @@
 import '../styles/PetStyle.css';
 import Header from '../components/Header';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import PetModal from '../components/PetModal';
 import { useAuth } from '../components/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 export default function PetPage() {
   const { token } = useAuth();
@@ -17,17 +18,21 @@ export default function PetPage() {
   const handleError = (e) => {
     e.target.src = '/icons/pet-default.png';
   };
-  useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    fetchPets();
-  }, [token]);
 
-  function fetchPets() {
+  const fetchPets = useCallback(() => {
     axios
       .get('http://localhost:8000/pets/')
       .then((res) => setPets(res.data.payload))
-      .catch(console.error);
-  }
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('pets-fetch-error'));
+      });
+  }, [t]);
+
+  useEffect(() => {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    fetchPets();
+  }, [token, fetchPets]);
 
   function handleAdd() {
     setEditingPet(null);
@@ -47,11 +52,13 @@ export default function PetPage() {
     request
       .then(() => {
         setModalOpen(false);
+        const msg = editingPet ? t('pet-update-success') : t('pet-add-success');
+        toast.success(msg);
         fetchPets();
       })
       .catch((err) => {
         console.error(err);
-        alert('Помилка збереження');
+        toast.error(t('pet-save-error'));
       });
   }
 
@@ -64,9 +71,13 @@ export default function PetPage() {
       .delete(`http://localhost:8000/pets/${confirm.petId}/`)
       .then(() => {
         setConfirm({ isOpen: false, petId: null });
+        toast.success(t('pet-delete-success'));
         fetchPets();
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('pet-delete-error'));
+      });
   }
 
   function handleCancelDelete() {

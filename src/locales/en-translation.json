@@ -111,11 +111,58 @@
   "grooming-salons": "Grooming salons",
   "pet-stores": "Pet stores",
 
+  "watchlist": "Watchlist",
+  "all-partners": "All partners",
+
   "edit-profile": "Edit profile",
+
   "error-signin-email": "Enter your email",
   "error-signin-password": "Enter your password",
 
   "error-signup-fullName": "Enter your name",
   "error-signup-email": "Invalid email format",
-  "error-signup-password": "At least 6 characters"
+  "error-signup-password": "At least 6 characters",
+
+  "signup-success": "Registration successful!",
+  "signup-error": "Failed to register",
+
+  "signin-success": "Sign in successful!",
+  "signin-error": "Failed to sign in",
+
+  "profile-updated": "Pet profile updated successfully",
+  "profile-update-error": "Failed to update profile",
+  "profile-fetch-error": "Failed to load profile",
+  "pets-fetch-error": "Failed to load pets list",
+  "pet-update-success": "Pet profile updated successfully",
+  "pet-add-success": "Pet profile added successfully",
+  "pet-save-error": "Failed to save pet",
+  "pet-delete-success": "Pet deleted successfully",
+  "pet-delete-error": "Failed to delete pet",
+
+  "calendar-fetch-error": "Failed to load events",
+  "toggle-success": "Event status updated",
+  "toggle-error": "Failed to update status",
+  "event-add-success": "Event added successfully",
+  "event-update-success": "Event updated successfully",
+  "event-save-error": "Failed to save event",
+  "event-delete-success": "Event deleted successfully",
+  "event-delete-error": "Failed to delete event",
+
+  "journal-fetch-error": "Failed to load journal entries",
+  "journal-add-success": "Entry added successfully",
+  "journal-update-success": "Entry updated successfully",
+  "journal-save-error": "Failed to save entry",
+  "journal-delete-success": "Entry deleted successfully",
+  "journal-delete-error": "Failed to delete entry",
+
+  "forum-fetch-error": "Failed to load posts",
+  "forum-create-success": "Post created successfully",
+  "forum-create-error": "Failed to create post",
+  "forum-delete-success": "Post deleted successfully",
+  "forum-delete-error": "Failed to delete post",
+  "forum-like-error": "Failed to update like",
+  "forum-comment-error": "Failed to add comment",
+
+  "partners-fetch-error": "Failed to load partners list",
+  "watchlist-fetch-error": "Failed to load watchlist"
 }

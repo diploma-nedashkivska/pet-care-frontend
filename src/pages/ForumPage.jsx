@@ -5,6 +5,22 @@ import '../styles/ForumStyle.css';
 import Header from '../components/Header';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { z } from 'zod';
+
+const PostSchema = z
+  .object({
+    post_text: z.string(),
+    photo: z.any().nullable(),
+  })
+  .refine((data) => data.post_text.trim() !== '' || data.photo != null, {
+    message: '',
+    path: ['post_text'],
+  });
+
+const CommentSchema = z.object({
+  comment_text: z.string().min(1, ''),
+});
 
 export default function ForumPage() {
   const { t } = useTranslation();
@@ -12,6 +28,8 @@ export default function ForumPage() {
   const [posts, setPosts] = useState([]);
   const [newText, setNewText] = useState('');
   const [newFile, setNewFile] = useState(null);
+  const [postError, setPostError] = useState(false);
+  const [commentErrors, setCommentErrors] = useState({});
   const [expanded, setExpanded] = useState({});
   const [commentTexts, setCommentTexts] = useState({});
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -24,8 +42,11 @@ export default function ForumPage() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setPosts(res.data))
-      .catch(console.error);
-  }, [token]);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-fetch-error'));
+      });
+  }, [token, t]);
 
   useEffect(() => {
     fetchPosts();
@@ -41,6 +62,16 @@ export default function ForumPage() {
   };
 
   const createPost = () => {
+    const result = PostSchema.safeParse({
+      post_text: newText,
+      photo: newFile,
+    });
+    if (!result.success) {
+      setPostError(true);
+      return;
+    }
+    setPostError(false);
+
     const formData = new FormData();
     formData.append('post_text', newText);
     if (newFile) formData.append('photo', newFile);
@@ -55,8 +86,12 @@ export default function ForumPage() {
         setPosts([res.data, ...posts]);
         setNewText('');
         setNewFile(null);
+        toast.success(t('forum-create-success'));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-create-error'));
+      });
   };
 
   const deletePost = (id) => {
@@ -68,8 +103,12 @@ export default function ForumPage() {
         setPosts(posts.filter((p) => p.id !== id));
         setConfirmOpen(false);
         setPostToDelete(null);
+        toast.success(t('forum-delete-success'));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-delete-error'));
+      });
   };
 
   const handleDeleteClick = (id) => {
@@ -92,6 +131,10 @@ export default function ForumPage() {
               : p,
           ),
         );
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-like-error'));
       });
   };
 
@@ -104,7 +147,16 @@ export default function ForumPage() {
   };
 
   const submitComment = (postId) => {
-    const text = commentTexts[postId];
+    const text = commentTexts[postId] || '';
+    const result = CommentSchema.safeParse({
+      comment_text: text,
+    });
+    if (!result.success) {
+      setCommentErrors((prev) => ({ ...prev, [postId]: true }));
+      return;
+    }
+    setCommentErrors((prev) => ({ ...prev, [postId]: false }));
+
     if (!text) return;
 
     axios
@@ -119,7 +171,10 @@ export default function ForumPage() {
         );
         setCommentTexts((prev) => ({ ...prev, [postId]: '' }));
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('forum-comment-error'));
+      });
   };
 
   if (!user) return null;
@@ -195,6 +250,8 @@ export default function ForumPage() {
                       placeholder={t('commentPlaceholder')}
                       value={commentTexts[post.id] || ''}
                       onChange={(e) => handleCommentChange(post.id, e.target.value)}
+                      onFocus={() => setCommentErrors((prev) => ({ ...prev, [post.id]: false }))}
+                      className={commentErrors[post.id] ? 'input-error' : ''}
                     />
                     <button onClick={() => submitComment(post.id)}>{t('comment-button')}</button>
                   </div>
@@ -236,11 +293,21 @@ export default function ForumPage() {
           <div className="post-form">
             <textarea
               value={newText}
-              onChange={(e) => setNewText(e.target.value)}
+              onChange={(e) => {
+                setNewText(e.target.value);
+                setPostError(false);
+              }}
+              onFocus={() => setPostError(false)}
               placeholder={t('postPlaceholder')}
+              className={postError && !newText.trim() ? 'input-error' : ''}
             />
             <div className="custom-file-input">
-              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                onClick={() => setPostError(false)}
+              />
               <button type="button">{t('chooseFile')}</button>
               <span>{newFile?.name || t('noFileChosen')}</span>
             </div>

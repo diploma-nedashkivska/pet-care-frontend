@@ -4,6 +4,7 @@ import { useAuth } from './AuthContext';
 import axios from 'axios';
 import { z } from 'zod';
 import '../styles/Header.css';
+import { toast } from 'react-toastify';
 
 const ProfileSchema = (t) =>
   z.object({
@@ -42,8 +43,11 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
         setPreview(user.photo_url);
         setErrors({});
       })
-      .catch((err) => console.error(err));
-  }, [isOpen]);
+      .catch((err) => {
+        console.error(err);
+        toast.error(t('profile-fetch-error'));
+      });
+  }, [isOpen, t]);
 
   const clearError = (field) => {
     setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -85,11 +89,14 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
       onUpdate(data);
       onClose();
     } catch (error) {
-      console.error(error.response ? error.response.data : error.message);
+      console.error(error.response?.data || error.message);
+      const msg = error.response?.data?.message || error.message;
+      toast.error(`${t('profile-update-error')}: ${msg}`);
     }
   };
 
   if (!isOpen) return null;
+
   return (
     <div className="user modal-overlay">
       <div className="user modal-window" onClick={(e) => e.stopPropagation()}>
@@ -144,17 +151,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
                   className={errors.password ? 'input-error' : ''}
                 />
               </label>
-              {/* <label>
-                Фото профілю
-                <input
-                  type="file"
-                  name="photo"
-                  accept="image/*"
-                  onChange={handleChange}
-                />
-              </label> */}
               <div className="user buttons">
-                {/* <button type="button" onClick={onClose}>Закрити</button> */}
                 <button type="submit">{t('save-button')}</button>
               </div>
             </form>
