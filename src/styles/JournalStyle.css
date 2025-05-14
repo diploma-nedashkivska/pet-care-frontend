@@ -27,6 +27,18 @@
   margin: 16px 0;
 }
 
+.journal-header-filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.journal-filter-label {
+  font-size: 1rem;
+  color: #0f0e0f;
+  display: flex;
+  align-items: center;
+}
+
 .journal-table {
   width: 100%;
   table-layout: fixed;
@@ -227,8 +239,6 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   cursor: pointer;
-}
-
-.journal-filter {
-  max-width: 300px;
+  width: 220px;
+  outline: none;
 }

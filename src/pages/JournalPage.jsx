@@ -14,12 +14,13 @@ export default function JournalPage() {
   const [pets, setPets] = useState([]);
   const [entries, setEntries] = useState([]);
   const [filterType, setFilterType] = useState('');
+  const [filterPet, setFilterPet] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const TYPE_CHOICES = [
-    { value: '', label: t('allTypes') },
+    { value: '', label: t('all') },
     { value: 'CHECKUP', label: t('checkup') },
     { value: 'VACCINATION', label: t('vaccination') },
     { value: 'FLEA_CTRL', label: t('flea_ctrl') },
@@ -103,6 +104,7 @@ export default function JournalPage() {
 
   const filtered = entries
     .filter((e) => !filterType || e.entry_type === filterType)
+    .filter((e) => !filterPet || e.pet === parseInt(filterPet))
     .sort((a, b) => a.id - b.id);
 
   return (
@@ -115,17 +117,37 @@ export default function JournalPage() {
         </div>
         <hr />
         <div className="journal-header journal-header--with-filter">
-          <select
-            className="journal-filter"
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-          >
-            {TYPE_CHOICES.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <div className="journal-header-filters">
+            <label className="journal-filter-label">
+              {t('type')}:&nbsp;
+              <select
+                className="journal-filter"
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                {TYPE_CHOICES.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="journal-filter-label">
+              {t('pet')}:&nbsp;
+              <select
+                className="journal-filter"
+                value={filterPet}
+                onChange={(e) => setFilterPet(e.target.value)}
+              >
+                <option value="">{t('all')}</option>
+                {pets.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.pet_name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <button className="btn-add" onClick={handleAdd}>
             {t('add-button')}
           </button>
