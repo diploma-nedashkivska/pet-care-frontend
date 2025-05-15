@@ -6,6 +6,7 @@ import '../styles/SignInStyle.css';
 import axios from 'axios';
 import { z } from 'zod';
 import { toast } from 'react-toastify';
+import config from '../config';
 
 const SignUpSchema = (t) =>
   z.object({
@@ -40,7 +41,7 @@ export default function SignInForm() {
       password: password,
     };
     try {
-      const { data } = await axios.post('http://localhost:8000/signin/', user);
+      const { data } = await axios.post(`${config.apiBase}/signin/`, user);
       login(data.payload.accessToken);
       toast.success(t('signin-success'));
       setTimeout(() => navigate('/pets'), 800);

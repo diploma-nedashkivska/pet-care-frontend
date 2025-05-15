@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import config from '../config';
 
 const AuthContext = createContext();
 
@@ -30,7 +31,7 @@ export function AuthProvider({ children }) {
     if (!token) return;
 
     axios
-      .get('http://localhost:8000/profile/')
+      .get(`${config.apiBase}/profile/`)
       .then(({ data }) => {
         setUser(data.payload ?? data);
       })

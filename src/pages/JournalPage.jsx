@@ -7,6 +7,7 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/JournalStyle.css';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import config from '../config';
 
 export default function JournalPage() {
   const { token } = useAuth();
@@ -31,7 +32,7 @@ export default function JournalPage() {
   ];
   const fetchEntries = useCallback(() => {
     axios
-      .get('http://localhost:8000/journal/')
+      .get(`${config.apiBase}/journal/`)
       .then((res) => setEntries(res.data.payload || []))
       .catch((err) => {
         console.error(err);
@@ -42,7 +43,7 @@ export default function JournalPage() {
   useEffect(() => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     axios
-      .get('http://localhost:8000/pets/')
+      .get(`${config.apiBase}/pets/`)
       .then((res) => setPets(res.data.payload || []))
       .catch((err) => {
         console.error(err);
@@ -64,8 +65,8 @@ export default function JournalPage() {
       description: form.description,
     };
     const req = form.id
-      ? axios.put(`http://localhost:8000/journal/${form.id}/`, payload)
-      : axios.post('http://localhost:8000/journal/', payload);
+      ? axios.put(`${config.apiBase}/journal/${form.id}/`, payload)
+      : axios.post(`${config.apiBase}/journal/`, payload);
 
     req
       .then(() => {
@@ -86,7 +87,7 @@ export default function JournalPage() {
 
   const handleConfirmDelete = () => {
     axios
-      .delete(`http://localhost:8000/journal/${deleteId}/`)
+      .delete(`${config.apiBase}/journal/${deleteId}/`)
       .then(() => {
         toast.success(t('journal-delete-success'));
         fetchEntries();

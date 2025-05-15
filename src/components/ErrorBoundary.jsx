@@ -7,10 +7,6 @@ export class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(_error) {
-    return { hasError: true };
-  }
-
   componentDidCatch(error, info) {
     console.error('Uncaught error:', error, info);
   }

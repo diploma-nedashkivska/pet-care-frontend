@@ -5,6 +5,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import '../styles/Header.css';
 import { toast } from 'react-toastify';
+import config from '../config';
 
 const ProfileSchema = (t) =>
   z.object({
@@ -31,7 +32,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
   useEffect(() => {
     if (!isOpen) return;
     axios
-      .get('http://localhost:8000/profile/')
+      .get(`${config.apiBase}/profile/`)
       .then(({ data }) => {
         const user = data.payload ?? data;
         setForm({
@@ -85,7 +86,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
     if (form.photo) payload.append('photo', form.photo);
 
     try {
-      const { data } = await axios.patch('http://localhost:8000/profile/', payload);
+      const { data } = await axios.patch(`${config.apiBase}/profile/`, payload);
       onUpdate(data);
       onClose();
     } catch (error) {

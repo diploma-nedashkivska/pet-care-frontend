@@ -7,6 +7,7 @@ import { useAuth } from '../components/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import config from '../config';
 
 export default function PetPage() {
   const { token } = useAuth();
@@ -21,7 +22,7 @@ export default function PetPage() {
 
   const fetchPets = useCallback(() => {
     axios
-      .get('http://localhost:8000/pets/')
+      .get(`${config.apiBase}/pets/`)
       .then((res) => setPets(res.data.payload))
       .catch((err) => {
         console.error(err);
@@ -46,8 +47,8 @@ export default function PetPage() {
 
   function handleSave(formData) {
     const request = editingPet
-      ? axios.put(`http://localhost:8000/pets/${editingPet.id}/`, formData)
-      : axios.post('http://localhost:8000/pets/', formData);
+      ? axios.put(`${config.apiBase}/pets/${editingPet.id}/`, formData)
+      : axios.post(`${config.apiBase}/pets/`, formData);
 
     request
       .then(() => {
@@ -68,7 +69,7 @@ export default function PetPage() {
 
   function handleConfirmDelete() {
     axios
-      .delete(`http://localhost:8000/pets/${confirm.petId}/`)
+      .delete(`${config.apiBase}/pets/${confirm.petId}/`)
       .then(() => {
         setConfirm({ isOpen: false, petId: null });
         toast.success(t('pet-delete-success'));

@@ -7,6 +7,7 @@ import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
+import config from '../config';
 
 const PostSchema = z
   .object({
@@ -38,7 +39,7 @@ export default function ForumPage() {
 
   const fetchPosts = useCallback(() => {
     axios
-      .get('http://localhost:8000/forum/', {
+      .get(`${config.apiBase}/forum/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setPosts(res.data))
@@ -77,7 +78,7 @@ export default function ForumPage() {
     if (newFile) formData.append('photo', newFile);
 
     axios
-      .post('http://localhost:8000/forum/', formData, {
+      .post(`${config.apiBase}/forum/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -96,7 +97,7 @@ export default function ForumPage() {
 
   const deletePost = (id) => {
     axios
-      .delete(`http://localhost:8000/forum/${id}/`, {
+      .delete(`${config.apiBase}/forum/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -119,7 +120,7 @@ export default function ForumPage() {
   const toggleLike = (id) => {
     axios
       .post(
-        `http://localhost:8000/forum/${id}/like/`,
+        `${config.apiBase}/forum/${id}/like/`,
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       )
@@ -161,7 +162,7 @@ export default function ForumPage() {
 
     axios
       .post(
-        `http://localhost:8000/forum/${postId}/comments/`,
+        `${config.apiBase}/forum/${postId}/comments/`,
         { comment_text: text },
         { headers: { Authorization: `Bearer ${token}` } },
       )
