@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useAuth } from '../components/AuthContext';
 import '../styles/ForumStyle.css';
 import Header from '../components/Header';
@@ -7,7 +7,6 @@ import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
-import config from '../config';
 
 const PostSchema = z
   .object({
@@ -38,8 +37,8 @@ export default function ForumPage() {
   const fullName = user?.full_name;
 
   const fetchPosts = useCallback(() => {
-    axios
-      .get(`${config.apiBase}/forum/`, {
+    api
+      .get('/forum/', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setPosts(res.data))
@@ -77,8 +76,8 @@ export default function ForumPage() {
     formData.append('post_text', newText);
     if (newFile) formData.append('photo', newFile);
 
-    axios
-      .post(`${config.apiBase}/forum/`, formData, {
+    api
+      .post('/forum/', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -96,8 +95,8 @@ export default function ForumPage() {
   };
 
   const deletePost = (id) => {
-    axios
-      .delete(`${config.apiBase}/forum/${id}/`, {
+    api
+      .delete(`/forum/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -118,12 +117,8 @@ export default function ForumPage() {
   };
 
   const toggleLike = (id) => {
-    axios
-      .post(
-        `${config.apiBase}/forum/${id}/like/`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
+    api
+      .post(`/forum/${id}/like/`, {}, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         setPosts(
           posts.map((p) =>
@@ -160,9 +155,9 @@ export default function ForumPage() {
 
     if (!text) return;
 
-    axios
+    api
       .post(
-        `${config.apiBase}/forum/${postId}/comments/`,
+        `/forum/${postId}/comments/`,
         { comment_text: text },
         { headers: { Authorization: `Bearer ${token}` } },
       )

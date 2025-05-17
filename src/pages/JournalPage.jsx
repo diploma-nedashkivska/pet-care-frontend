@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useAuth } from '../components/AuthContext';
 import Header from '../components/Header';
 import JournalModal from '../components/JournalModal';
@@ -7,7 +7,6 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/JournalStyle.css';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 export default function JournalPage() {
   const { token } = useAuth();
@@ -31,8 +30,8 @@ export default function JournalPage() {
     { value: 'OTHER', label: t('other') },
   ];
   const fetchEntries = useCallback(() => {
-    axios
-      .get(`${config.apiBase}/journal/`)
+    api
+      .get('/journal/')
       .then((res) => setEntries(res.data.payload || []))
       .catch((err) => {
         console.error(err);
@@ -41,9 +40,9 @@ export default function JournalPage() {
   }, [t]);
 
   useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    axios
-      .get(`${config.apiBase}/pets/`)
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api
+      .get('/pets/')
       .then((res) => setPets(res.data.payload || []))
       .catch((err) => {
         console.error(err);
@@ -64,9 +63,7 @@ export default function JournalPage() {
       entry_title: form.entry_title,
       description: form.description,
     };
-    const req = form.id
-      ? axios.put(`${config.apiBase}/journal/${form.id}/`, payload)
-      : axios.post(`${config.apiBase}/journal/`, payload);
+    const req = form.id ? api.put(`/journal/${form.id}/`, payload) : api.post(`/journal/`, payload);
 
     req
       .then(() => {
@@ -86,8 +83,8 @@ export default function JournalPage() {
   };
 
   const handleConfirmDelete = () => {
-    axios
-      .delete(`${config.apiBase}/journal/${deleteId}/`)
+    api
+      .delete(`/journal/${deleteId}/`)
       .then(() => {
         toast.success(t('journal-delete-success'));
         fetchEntries();

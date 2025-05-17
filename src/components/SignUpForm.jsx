@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api';
 import { z } from 'zod';
 import '../styles/SignUpStyle.css';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 const SignUpSchema = (t) =>
   z.object({
@@ -50,7 +49,7 @@ export default function SignUpForm() {
     if (photo) data.append('photo', photo);
 
     try {
-      await axios.post(`${config.apiBase}/signup/`, data, {
+      await api.post('/signup/', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success(t('signup-success'));

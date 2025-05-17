@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
-import axios from 'axios';
+import api from '../api/api';
 import { z } from 'zod';
 import '../styles/Header.css';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 const ProfileSchema = (t) =>
   z.object({
@@ -31,8 +30,8 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
 
   useEffect(() => {
     if (!isOpen) return;
-    axios
-      .get(`${config.apiBase}/profile/`)
+    api
+      .get('/profile/')
       .then(({ data }) => {
         const user = data.payload ?? data;
         setForm({
@@ -86,7 +85,7 @@ export default function UserProfile({ isOpen, onClose, onUpdate }) {
     if (form.photo) payload.append('photo', form.photo);
 
     try {
-      const { data } = await axios.patch(`${config.apiBase}/profile/`, payload);
+      const { data } = await api.patch('/profile/', payload);
       onUpdate(data);
       onClose();
     } catch (error) {

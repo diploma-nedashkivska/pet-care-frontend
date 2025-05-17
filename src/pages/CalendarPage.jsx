@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useAuth } from '../components/AuthContext';
 import CalendarModal from '../components/CalendarModal';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,6 @@ import Header from '../components/Header';
 import EventsListModal from '../components/EventsListModal';
 import ConfirmModal from '../components/ConfirmModal';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 function formatDateLocal(date) {
   const y = date.getFullYear();
@@ -66,9 +65,9 @@ export default function CalendarPage() {
     t('december'),
   ];
   const handleToggle = (evt) => {
-    axios
+    api
       .patch(
-        `${config.apiBase}/calendar/${evt.id}/`,
+        `/calendar/${evt.id}/`,
         { completed: !evt.completed },
         { headers: { Authorization: `Bearer ${token}` } },
       )
@@ -81,9 +80,9 @@ export default function CalendarPage() {
         );
         toast.success(t('toggle-success'));
         if (!evt.completed) {
-          axios
+          api
             .post(
-              `${config.apiBase}/journal/`,
+              '/journal/',
               {
                 pet: evt.pet,
                 entry_type: evt.event_type,
@@ -103,9 +102,9 @@ export default function CalendarPage() {
 
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios
-        .get(`${config.apiBase}/pets/`)
+      api.defaults.headers.common.Authorization = `Bearer ${token}`;
+      api
+        .get('/pets/')
         .then((res) => setPets(res.data.payload || []))
         .catch((err) => {
           console.error(err);
@@ -119,8 +118,8 @@ export default function CalendarPage() {
     const month = currentDate.getMonth();
     setWeeks(buildCalendar(year, month));
 
-    axios
-      .get(`${config.apiBase}/calendar/`, {
+    api
+      .get('/calendar/', {
         params: { year, month: month + 1 },
       })
       .then((res) => setEvents(res.data.payload || []))
@@ -156,8 +155,8 @@ export default function CalendarPage() {
       completed: data.completed,
     };
     const req = data.id
-      ? axios.put(`${config.apiBase}/calendar/${data.id}/`, payload)
-      : axios.post(`${config.apiBase}/calendar/`, payload);
+      ? api.put(`/calendar/${data.id}/`, payload)
+      : api.post('/calendar/', payload);
 
     req
       .then(() => {
@@ -165,7 +164,7 @@ export default function CalendarPage() {
         setModalOpen(false);
         const y = currentDate.getFullYear();
         const m = currentDate.getMonth();
-        return axios.get(`${config.apiBase}/calendar/`, {
+        return api.get('/calendar/', {
           params: { year: y, month: m + 1 },
         });
       })
@@ -184,16 +183,16 @@ export default function CalendarPage() {
   const refreshEvents = () => {
     const y = currentDate.getFullYear();
     const m = currentDate.getMonth();
-    return axios
-      .get(`${config.apiBase}/calendar/`, { params: { year: y, month: m + 1 } })
+    return api
+      .get('/calendar/', { params: { year: y, month: m + 1 } })
       .then((res) => setEvents(res.data.payload || []))
       .catch(console.error);
   };
 
   const handleConfirmDelete = () => {
     if (deleteId != null) {
-      axios
-        .delete(`${config.apiBase}/calendar/${deleteId}/`, {
+      api
+        .delete(`/calendar/${deleteId}/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useAuth } from '../components/AuthContext';
 import '../styles/PartnersStyle.css';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 export default function PartnersPage() {
   const { token } = useAuth();
@@ -42,16 +41,16 @@ export default function PartnersPage() {
   };
 
   useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    axios
-      .get(`${config.apiBase}/partners/`)
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api
+      .get('/partners/')
       .then((res) => setPartners(res.data))
       .catch((err) => {
         console.error(err);
         toast.error(t('partners-fetch-error'));
       });
-    axios
-      .get(`${config.apiBase}/partners/watchlist/`)
+    api
+      .get('/partners/watchlist/')
       .then((r) => setWatchlist(r.data.payload))
       .catch((err) => {
         console.error(err);
@@ -164,13 +163,11 @@ export default function PartnersPage() {
               <button
                 className="watch-toggle-btn"
                 onClick={() => {
-                  const url = `${config.apiBase}/partners/watchlist/${p.id}/`;
+                  const url = '/partners/watchlist/${p.id}/';
                   if (watchlist.includes(p.id)) {
-                    axios
-                      .delete(url)
-                      .then(() => setWatchlist((wl) => wl.filter((i) => i !== p.id)));
+                    api.delete(url).then(() => setWatchlist((wl) => wl.filter((i) => i !== p.id)));
                   } else {
-                    axios.post(url).then(() => setWatchlist((wl) => [...wl, p.id]));
+                    api.post(url).then(() => setWatchlist((wl) => [...wl, p.id]));
                   }
                 }}
               >

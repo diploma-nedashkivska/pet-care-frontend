@@ -3,10 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/SignInStyle.css';
-import axios from 'axios';
+import api from '../api/api';
 import { z } from 'zod';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 const SignUpSchema = (t) =>
   z.object({
@@ -33,6 +32,7 @@ export default function SignInForm() {
         fieldErrors[key] = issue.message;
       });
       setErrors(fieldErrors);
+      toast.error(t('signin-error'));
       return;
     }
     setErrors({});
@@ -41,18 +41,16 @@ export default function SignInForm() {
       password: password,
     };
     try {
-      const { data } = await axios.post(`${config.apiBase}/signin/`, user);
+      const { data } = await api.post('/signin/', user);
       login(data.payload.accessToken);
       toast.success(t('signin-success'));
       setTimeout(() => navigate('/pets'), 800);
     } catch (error) {
-      let msg = '';
-      if (error.response?.data) {
-        msg = error.response.data.message || JSON.stringify(error.response.data);
+      if (error.response?.status === 401) {
+        toast.error(t('signin-error'));
       } else {
-        msg = error.message;
+        toast.error(`${t('signin-error')}: ${error.message}`);
       }
-      toast.error(`${t('signin-error')}: ${msg}`);
       console.error(error);
     }
   };

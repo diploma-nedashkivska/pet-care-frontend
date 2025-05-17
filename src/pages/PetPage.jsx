@@ -1,13 +1,12 @@
 import '../styles/PetStyle.css';
 import Header from '../components/Header';
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import PetModal from '../components/PetModal';
 import { useAuth } from '../components/AuthContext';
 import ConfirmModal from '../components/ConfirmModal';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import config from '../config';
 
 export default function PetPage() {
   const { token } = useAuth();
@@ -21,8 +20,8 @@ export default function PetPage() {
   };
 
   const fetchPets = useCallback(() => {
-    axios
-      .get(`${config.apiBase}/pets/`)
+    api
+      .get('/pets/')
       .then((res) => setPets(res.data.payload))
       .catch((err) => {
         console.error(err);
@@ -31,7 +30,7 @@ export default function PetPage() {
   }, [t]);
 
   useEffect(() => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
     fetchPets();
   }, [token, fetchPets]);
 
@@ -47,8 +46,8 @@ export default function PetPage() {
 
   function handleSave(formData) {
     const request = editingPet
-      ? axios.put(`${config.apiBase}/pets/${editingPet.id}/`, formData)
-      : axios.post(`${config.apiBase}/pets/`, formData);
+      ? api.put(`/pets/${editingPet.id}/`, formData)
+      : api.post('/pets/', formData);
 
     request
       .then(() => {
@@ -68,8 +67,8 @@ export default function PetPage() {
   }
 
   function handleConfirmDelete() {
-    axios
-      .delete(`${config.apiBase}/pets/${confirm.petId}/`)
+    api
+      .delete(`/pets/${confirm.petId}/`)
       .then(() => {
         setConfirm({ isOpen: false, petId: null });
         toast.success(t('pet-delete-success'));
