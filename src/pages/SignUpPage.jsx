@@ -12,7 +12,7 @@ export default function SignUpPage() {
     <>
       <div className="backgroud-circle"></div>
       <select className="signup languages" value={i18n.language} onChange={handleLanguageChange}>
-        <option value="uk">UK</option>
+        <option value="ua">UA</option>
         <option value="en">EN</option>
       </select>
       <div className="signup page-container">

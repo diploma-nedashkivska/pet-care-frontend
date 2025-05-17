@@ -163,7 +163,7 @@ export default function PartnersPage() {
               <button
                 className="watch-toggle-btn"
                 onClick={() => {
-                  const url = '/partners/watchlist/${p.id}/';
+                  const url = `/partners/watchlist/${p.id}/`;
                   if (watchlist.includes(p.id)) {
                     api.delete(url).then(() => setWatchlist((wl) => wl.filter((i) => i !== p.id)));
                   } else {

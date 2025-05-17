@@ -2,17 +2,17 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import en from './locales/en-translation.json';
-import uk from './locales/uk-translation.json';
+import ua from './locales/ua-translation.json';
 
 i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
-    uk: { translation: uk },
+    ua: { translation: ua },
   },
   fallbackLng: 'en',
-  lng: 'uk', // мова за замовчуванням
+  lng: 'ua',
   interpolation: {
-    escapeValue: false, // не екранізуємо HTML
+    escapeValue: false,
   },
 });
 

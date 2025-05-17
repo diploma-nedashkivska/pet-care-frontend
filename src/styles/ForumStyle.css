@@ -187,6 +187,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
+  resize: none;
 }
 
 .post-form button.submit-post-btn {
@@ -242,6 +243,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
+  resize: none;
 }
 
 .comment-form button {

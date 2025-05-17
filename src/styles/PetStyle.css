@@ -49,27 +49,19 @@
 }
 
 .pet-grid {
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
   gap: 24px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 16px 0;
-}
+  padding: 16px 10px;
 
-.pet-grid::-webkit-scrollbar {
-  height: 8px;
-}
-
-.pet-grid::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  /* обмежує висоту блоку */
+  overflow-y: auto; /* вертикальний скрол */
+  overflow-x: hidden; /* ховаємо горизонтальний */
 }
 
 /* Одна картка тварини */
 .pet-card {
-  flex: 0 0 calc(33% - 16px);
-  max-width: calc(33% - 16px);
   background: #fff;
   border-radius: 8px;
   box-shadow: 4px 4px 10px rgba(13, 59, 195, 0.4);

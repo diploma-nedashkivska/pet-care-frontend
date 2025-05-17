@@ -27,7 +27,7 @@ export default function Header() {
       <header className="app-header">
         <div className="container">
           <select className="languages" value={i18n.language} onChange={handleLanguageChange}>
-            <option value="uk">UK</option>
+            <option value="ua">UA</option>
             <option value="en">EN</option>
           </select>
 
