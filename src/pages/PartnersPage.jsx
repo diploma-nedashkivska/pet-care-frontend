@@ -59,13 +59,20 @@ export default function PartnersPage() {
   }, [token, t]);
 
   const filtered = partners
-    .filter((p) => !filterType || p.partner_type === filterType)
     .filter((p) => p.site_name.toLowerCase().includes(search.toLowerCase()))
+    .filter((p) => (showWatchlist ? watchlist.includes(p.id) : true))
     .filter((p) => {
-      if (!ratingCategory) return true;
-      return getRatingClass(p.rating) === ratingCategory;
-    })
-    .filter((p) => !showWatchlist || watchlist.includes(p.id));
+      if (showWatchlist) {
+        return true;
+      }
+      if (filterType && p.partner_type !== filterType) {
+        return false;
+      }
+      if (ratingCategory && getRatingClass(p.rating) !== ratingCategory) {
+        return false;
+      }
+      return true;
+    });
 
   return (
     <>
