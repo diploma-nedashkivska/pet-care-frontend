@@ -18,10 +18,12 @@
   "have-account": "Маєте акаунт?",
 
   "pets-page": "Профілі тварин",
-  "calendar-page": "Календар здоров'я",
-  "journal-page": "Журнал здоров'я",
+  "calendar-page": "Календар",
+  "journal-page": "Журнал",
   "forum-page": "Форум",
   "partners-page": "Сайти-партнери",
+  "calendar": "Календар здоров'я",
+  "journal": "Журнал здоров'я",
 
   "new-password": "Новий пароль",
   "new-passwordPlaceholder": "Залиште порожнім, якщо не міняти",
@@ -87,13 +89,11 @@
   "saturday": "Субота",
   "sunday": "Неділя",
 
-  "journal": "Журнал",
   "edit-journal-entry": "Редагування запису",
   "add-journal-entry": "Додавання запису",
   "confirm-delete-entry": "Ви дійсно хочете видалити запис?",
   "descriptionEntryPlaceholder": "Введіть опис запису",
 
-  "forum": "Форум",
   "comment-button": "Коментувати",
   "send-button": "Відправити",
   "confirm-delete-post": "Ви дійсно хочете видалити допис?",

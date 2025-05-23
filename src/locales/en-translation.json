@@ -18,10 +18,12 @@
   "have-account": "Do have an account?",
 
   "pets-page": "Pet Profiles",
-  "calendar-page": "Health calendar",
-  "journal-page": "Health journal",
+  "calendar-page": "Сalendar",
+  "journal-page": "Journal",
   "forum-page": "Forum",
   "partners-page": "Partner Sites",
+  "calendar": "Health calendar",
+  "journal": "Health journal",
 
   "new-password": "New password",
   "new-passwordPlaceholder": "Leave blank to keep current password",
@@ -87,13 +89,11 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
 
-  "journal": "Journal",
   "edit-journal-entry": "Edit entry",
   "add-journal-entry": "Add entry",
   "confirm-delete-entry": "Are you sure you want to delete the entry?",
   "descriptionEntryPlaceholder": "Enter entry description",
 
-  "forum": "Forum",
   "comment-button": "Comment",
   "send-button": "Send",
   "confirm-delete-post": "Are you sure you want to delete the post?",

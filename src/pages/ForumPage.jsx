@@ -181,7 +181,7 @@ export default function ForumPage() {
       <div className="page-container">
         <div className="forum title-with-icon">
           <img src="/icons/page-4-forum.png" alt="forum" className="forum icon-h1" />
-          <span>{t('forum')}</span>
+          <span>{t('forum-page')}</span>
         </div>
         <hr />
       </div>

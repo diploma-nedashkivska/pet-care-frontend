@@ -227,7 +227,7 @@ export default function CalendarPage() {
             alt="page-2-calendar"
             className="calendar icon-h1"
           />
-          <span>Календар</span>
+          <span>{t('calendar')}</span>
         </div>
         <hr />
         <div className="calendar-header">
