@@ -30,6 +30,7 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    setErrors({});
     if (entryData) {
       setForm({
         id: entryData.id,
@@ -41,10 +42,15 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
     } else {
       setForm({ id: null, pet: '', entry_type: 'OTHER', entry_title: '', description: '' });
     }
-    setErrors({});
-  }, [entryData]);
+  }, [entryData, isOpen]);
 
   if (!isOpen) return null;
+
+  const handleClose = () => {
+    onClose();
+    setForm({ id: null, pet: '', entry_type: 'OTHER', entry_title: '', description: '' });
+    setErrors({});
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,7 +83,7 @@ export default function JournalModal({ isOpen, onClose, onSave, onDelete, entryD
   return (
     <div className="journal modal-overlay">
       <div className="journal modal-window">
-        <button className="journal close-btn" onClick={onClose}>
+        <button className="journal close-btn" onClick={handleClose}>
           <img src="/icons/close.png" alt="close" />
         </button>
         <h2>{form.id ? t('edit-journal-entry') : t('add-journal-entry')}</h2>

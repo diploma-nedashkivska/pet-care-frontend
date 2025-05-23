@@ -46,7 +46,7 @@ export default function PetPage() {
 
   function handleSave(formData) {
     const request = editingPet
-      ? api.put(`/pets/${editingPet.id}/`, formData)
+      ? api.patch(`/pets/${editingPet.id}/`, formData)
       : api.post('/pets/', formData);
 
     request
